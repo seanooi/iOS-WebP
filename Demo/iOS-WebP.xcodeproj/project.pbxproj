@@ -1,0 +1,503 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		14EFCAF21865B999005742DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF11865B999005742DB /* Foundation.framework */; };
+		14EFCAF41865B999005742DB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF31865B999005742DB /* CoreGraphics.framework */; };
+		14EFCAF61865B999005742DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF51865B999005742DB /* UIKit.framework */; };
+		14EFCAFC1865B999005742DB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCAFA1865B999005742DB /* InfoPlist.strings */; };
+		14EFCAFE1865B999005742DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCAFD1865B999005742DB /* main.m */; };
+		14EFCB021865B999005742DB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB011865B999005742DB /* AppDelegate.m */; };
+		14EFCB051865B999005742DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB031865B999005742DB /* Main.storyboard */; };
+		14EFCB081865B999005742DB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB071865B999005742DB /* ViewController.m */; };
+		14EFCB0A1865B999005742DB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB091865B999005742DB /* Images.xcassets */; };
+		14EFCB111865B999005742DB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCB101865B999005742DB /* XCTest.framework */; };
+		14EFCB121865B999005742DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF11865B999005742DB /* Foundation.framework */; };
+		14EFCB131865B999005742DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF51865B999005742DB /* UIKit.framework */; };
+		14EFCB1B1865B999005742DB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB191865B999005742DB /* InfoPlist.strings */; };
+		14EFCB1D1865B999005742DB /* iOS_WebPTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB1C1865B999005742DB /* iOS_WebPTests.m */; };
+		14EFCB281865BA45005742DB /* Rosetta.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB261865BA45005742DB /* Rosetta.jpg */; };
+		14EFCB291865BA45005742DB /* Rosetta.webp in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB271865BA45005742DB /* Rosetta.webp */; };
+		14EFCB2B1865BA93005742DB /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCB2A1865BA93005742DB /* WebP.framework */; };
+		14EFCB2E1865BA9B005742DB /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB2D1865BA9B005742DB /* UIImage+WebP.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		14EFCB141865B999005742DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14EFCAE61865B999005742DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14EFCAED1865B999005742DB;
+			remoteInfo = "iOS-WebP";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		14EFCAEE1865B999005742DB /* iOS-WebP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-WebP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14EFCAF11865B999005742DB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		14EFCAF31865B999005742DB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		14EFCAF51865B999005742DB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		14EFCAF91865B999005742DB /* iOS-WebP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOS-WebP-Info.plist"; sourceTree = "<group>"; };
+		14EFCAFB1865B999005742DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		14EFCAFD1865B999005742DB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		14EFCAFF1865B999005742DB /* iOS-WebP-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-WebP-Prefix.pch"; sourceTree = "<group>"; };
+		14EFCB001865B999005742DB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		14EFCB011865B999005742DB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		14EFCB041865B999005742DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		14EFCB061865B999005742DB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		14EFCB071865B999005742DB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		14EFCB091865B999005742DB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		14EFCB0F1865B999005742DB /* iOS-WebPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-WebPTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14EFCB101865B999005742DB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		14EFCB181865B999005742DB /* iOS-WebPTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOS-WebPTests-Info.plist"; sourceTree = "<group>"; };
+		14EFCB1A1865B999005742DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		14EFCB1C1865B999005742DB /* iOS_WebPTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOS_WebPTests.m; sourceTree = "<group>"; };
+		14EFCB261865BA45005742DB /* Rosetta.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rosetta.jpg; sourceTree = "<group>"; };
+		14EFCB271865BA45005742DB /* Rosetta.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rosetta.webp; sourceTree = "<group>"; };
+		14EFCB2A1865BA93005742DB /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = "../iOS-WebP/WebP.framework"; sourceTree = "<group>"; };
+		14EFCB2C1865BA9B005742DB /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+WebP.h"; path = "../../iOS-WebP/UIImage+WebP.h"; sourceTree = "<group>"; };
+		14EFCB2D1865BA9B005742DB /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+WebP.m"; path = "../../iOS-WebP/UIImage+WebP.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		14EFCAEB1865B999005742DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EFCB2B1865BA93005742DB /* WebP.framework in Frameworks */,
+				14EFCAF41865B999005742DB /* CoreGraphics.framework in Frameworks */,
+				14EFCAF61865B999005742DB /* UIKit.framework in Frameworks */,
+				14EFCAF21865B999005742DB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14EFCB0C1865B999005742DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EFCB111865B999005742DB /* XCTest.framework in Frameworks */,
+				14EFCB131865B999005742DB /* UIKit.framework in Frameworks */,
+				14EFCB121865B999005742DB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		14EFCAE51865B999005742DB = {
+			isa = PBXGroup;
+			children = (
+				14EFCAF71865B999005742DB /* iOS-WebP */,
+				14EFCB161865B999005742DB /* iOS-WebPTests */,
+				14EFCAF01865B999005742DB /* Frameworks */,
+				14EFCAEF1865B999005742DB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		14EFCAEF1865B999005742DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14EFCAEE1865B999005742DB /* iOS-WebP.app */,
+				14EFCB0F1865B999005742DB /* iOS-WebPTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		14EFCAF01865B999005742DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14EFCB2A1865BA93005742DB /* WebP.framework */,
+				14EFCAF11865B999005742DB /* Foundation.framework */,
+				14EFCAF31865B999005742DB /* CoreGraphics.framework */,
+				14EFCAF51865B999005742DB /* UIKit.framework */,
+				14EFCB101865B999005742DB /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		14EFCAF71865B999005742DB /* iOS-WebP */ = {
+			isa = PBXGroup;
+			children = (
+				14EFCB001865B999005742DB /* AppDelegate.h */,
+				14EFCB011865B999005742DB /* AppDelegate.m */,
+				14EFCB031865B999005742DB /* Main.storyboard */,
+				14EFCB061865B999005742DB /* ViewController.h */,
+				14EFCB071865B999005742DB /* ViewController.m */,
+				14EFCB091865B999005742DB /* Images.xcassets */,
+				14EFCB2C1865BA9B005742DB /* UIImage+WebP.h */,
+				14EFCB2D1865BA9B005742DB /* UIImage+WebP.m */,
+				14EFCB261865BA45005742DB /* Rosetta.jpg */,
+				14EFCB271865BA45005742DB /* Rosetta.webp */,
+				14EFCAF81865B999005742DB /* Supporting Files */,
+			);
+			path = "iOS-WebP";
+			sourceTree = "<group>";
+		};
+		14EFCAF81865B999005742DB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				14EFCAF91865B999005742DB /* iOS-WebP-Info.plist */,
+				14EFCAFA1865B999005742DB /* InfoPlist.strings */,
+				14EFCAFD1865B999005742DB /* main.m */,
+				14EFCAFF1865B999005742DB /* iOS-WebP-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		14EFCB161865B999005742DB /* iOS-WebPTests */ = {
+			isa = PBXGroup;
+			children = (
+				14EFCB1C1865B999005742DB /* iOS_WebPTests.m */,
+				14EFCB171865B999005742DB /* Supporting Files */,
+			);
+			path = "iOS-WebPTests";
+			sourceTree = "<group>";
+		};
+		14EFCB171865B999005742DB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				14EFCB181865B999005742DB /* iOS-WebPTests-Info.plist */,
+				14EFCB191865B999005742DB /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		14EFCAED1865B999005742DB /* iOS-WebP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14EFCB201865B999005742DB /* Build configuration list for PBXNativeTarget "iOS-WebP" */;
+			buildPhases = (
+				14EFCAEA1865B999005742DB /* Sources */,
+				14EFCAEB1865B999005742DB /* Frameworks */,
+				14EFCAEC1865B999005742DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "iOS-WebP";
+			productName = "iOS-WebP";
+			productReference = 14EFCAEE1865B999005742DB /* iOS-WebP.app */;
+			productType = "com.apple.product-type.application";
+		};
+		14EFCB0E1865B999005742DB /* iOS-WebPTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14EFCB231865B999005742DB /* Build configuration list for PBXNativeTarget "iOS-WebPTests" */;
+			buildPhases = (
+				14EFCB0B1865B999005742DB /* Sources */,
+				14EFCB0C1865B999005742DB /* Frameworks */,
+				14EFCB0D1865B999005742DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				14EFCB151865B999005742DB /* PBXTargetDependency */,
+			);
+			name = "iOS-WebPTests";
+			productName = "iOS-WebPTests";
+			productReference = 14EFCB0F1865B999005742DB /* iOS-WebPTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		14EFCAE61865B999005742DB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Sean Ooi";
+				TargetAttributes = {
+					14EFCB0E1865B999005742DB = {
+						TestTargetID = 14EFCAED1865B999005742DB;
+					};
+				};
+			};
+			buildConfigurationList = 14EFCAE91865B999005742DB /* Build configuration list for PBXProject "iOS-WebP" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 14EFCAE51865B999005742DB;
+			productRefGroup = 14EFCAEF1865B999005742DB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				14EFCAED1865B999005742DB /* iOS-WebP */,
+				14EFCB0E1865B999005742DB /* iOS-WebPTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		14EFCAEC1865B999005742DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EFCB281865BA45005742DB /* Rosetta.jpg in Resources */,
+				14EFCB0A1865B999005742DB /* Images.xcassets in Resources */,
+				14EFCAFC1865B999005742DB /* InfoPlist.strings in Resources */,
+				14EFCB291865BA45005742DB /* Rosetta.webp in Resources */,
+				14EFCB051865B999005742DB /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14EFCB0D1865B999005742DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EFCB1B1865B999005742DB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		14EFCAEA1865B999005742DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EFCB081865B999005742DB /* ViewController.m in Sources */,
+				14EFCB021865B999005742DB /* AppDelegate.m in Sources */,
+				14EFCAFE1865B999005742DB /* main.m in Sources */,
+				14EFCB2E1865BA9B005742DB /* UIImage+WebP.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14EFCB0B1865B999005742DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EFCB1D1865B999005742DB /* iOS_WebPTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		14EFCB151865B999005742DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14EFCAED1865B999005742DB /* iOS-WebP */;
+			targetProxy = 14EFCB141865B999005742DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		14EFCAFA1865B999005742DB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14EFCAFB1865B999005742DB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		14EFCB031865B999005742DB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14EFCB041865B999005742DB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		14EFCB191865B999005742DB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14EFCB1A1865B999005742DB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		14EFCB1E1865B999005742DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		14EFCB1F1865B999005742DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		14EFCB211865B999005742DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Sean/Documents/Xcode/iOS-WebP/iOS-WebP",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
+				INFOPLIST_FILE = "iOS-WebP/iOS-WebP-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		14EFCB221865B999005742DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Sean/Documents/Xcode/iOS-WebP/iOS-WebP",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
+				INFOPLIST_FILE = "iOS-WebP/iOS-WebP-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		14EFCB241865B999005742DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iOS-WebP.app/iOS-WebP";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "iOS-WebPTests/iOS-WebPTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		14EFCB251865B999005742DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iOS-WebP.app/iOS-WebP";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
+				INFOPLIST_FILE = "iOS-WebPTests/iOS-WebPTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		14EFCAE91865B999005742DB /* Build configuration list for PBXProject "iOS-WebP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14EFCB1E1865B999005742DB /* Debug */,
+				14EFCB1F1865B999005742DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14EFCB201865B999005742DB /* Build configuration list for PBXNativeTarget "iOS-WebP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14EFCB211865B999005742DB /* Debug */,
+				14EFCB221865B999005742DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14EFCB231865B999005742DB /* Build configuration list for PBXNativeTarget "iOS-WebPTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14EFCB241865B999005742DB /* Debug */,
+				14EFCB251865B999005742DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 14EFCAE61865B999005742DB /* Project object */;
+}

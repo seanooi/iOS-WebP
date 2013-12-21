@@ -1,0 +1,82 @@
+//
+//  UIImage+WebP.m
+//  iOS-WebP
+//
+//  Created by Sean Ooi on 12/21/13.
+//  Copyright (c) 2013 Sean Ooi. All rights reserved.
+//
+
+#import "UIImage+WebP.h"
+#import <WebP/decode.h>
+#import <WebP/encode.h>
+
+static void free_image_data(void *info, const void *data, size_t size)
+{
+    if(info != NULL)
+        WebPFreeDecBuffer(&(((WebPDecoderConfig *)info)->output));
+    else
+        free((void *)data);
+}
+
+@implementation UIImage (WebP)
+
++ (UIImage *)imageFromWebP:(NSString *)filePath
+{
+    NSError *error;
+    NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
+    
+    int width = 0, height = 0;
+    WebPGetInfo([imgData bytes], [imgData length], &width, &height);
+    
+    uint8_t *data = WebPDecodeRGBA([imgData bytes], [imgData length], &width, &height);
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, width * height * 4, free_image_data);
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault |kCGImageAlphaLast;
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+    CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4 * width, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);
+        
+    UIImage *result = [UIImage imageWithCGImage:imageRef];
+    
+    CGImageRelease(imageRef);
+    CGColorSpaceRelease(colorSpaceRef);
+    CGDataProviderRelease(provider);
+    
+    return result;
+}
+
++ (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
+{
+    CGImageRef webPImageRef = image.CGImage;
+    size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
+    size_t webPBitsPerComponent = CGImageGetBitsPerComponent(webPImageRef);
+    CGColorSpaceRef webPColorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo webPBitmapInfo = CGImageGetBitmapInfo(webPImageRef);
+    
+    size_t webPImageWidth = CGImageGetWidth(webPImageRef);
+    size_t webPImageHeight = CGImageGetHeight(webPImageRef);
+    
+    CGDataProviderRef webPDataProviderRef = CGImageGetDataProvider(webPImageRef);
+    CFDataRef webPImageDatRef = CGDataProviderCopyData(webPDataProviderRef);
+    
+    uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDatRef);
+    uint8_t *webPOutput;
+    
+    CGContextRef context = CGBitmapContextCreate(webPImageData, webPImageWidth, webPImageHeight, webPBitsPerComponent, webPBytesPerRow, webPColorSpaceRef, webPBitmapInfo);
+    void *data = CGBitmapContextGetData(context);
+    
+    size_t encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
+    
+    NSData *webPFinalData = [NSData dataWithBytes:webPOutput length:encodedData];
+    
+    data = nil;
+    free(data);
+    free(webPOutput);
+    CGColorSpaceRelease(webPColorSpaceRef);
+    CGContextRelease(context);
+    CFRelease(webPImageDatRef);
+    
+    return webPFinalData;
+}
+
+@end
