@@ -33,8 +33,6 @@
     uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:normalImg error:nil] fileSize];
     [normalLabel setText:[NSString stringWithFormat:@"JPG format file size: %.2f KB", (double)fileSize/1024]];
     
-    
-    
     NSData *webpData = [UIImage imageToWebP:[UIImage imageNamed:imageFileName] quality:quality];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *webpPath = [[NSString alloc] initWithString: [paths[0] stringByAppendingPathComponent:@"image.webp"]];
