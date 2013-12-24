@@ -22,8 +22,13 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (UIImage *)imageFromWebP:(NSString *)filePath
 {
-    NSError *error;
+    NSAssert(filePath != nil, @"imageFromWebP: filepath cannot be nil");
+    
+    NSError *error = nil;;
     NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
+    if(error != nil) {
+        NSLog(@"imageFromWebP: error: %@", error.localizedDescription);
+    }
     
     int width = 0, height = 0;
     WebPGetInfo([imgData bytes], [imgData length], &width, &height);
@@ -47,6 +52,9 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
 {
+    NSAssert(image != nil, @"imageToWebP:quality image cannot be nil");
+    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality quality has to be [0, 100]");
+    
     CGImageRef webPImageRef = image.CGImage;
     size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
     size_t webPBitsPerComponent = CGImageGetBitsPerComponent(webPImageRef);
