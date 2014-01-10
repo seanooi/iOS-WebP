@@ -398,7 +398,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/Sean/Documents/Xcode/iOS-WebP/iOS-WebP",
+					"$(SRCROOT)/../iOS-WebP",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
@@ -415,7 +415,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/Sean/Documents/Xcode/iOS-WebP/iOS-WebP",
+					"$(SRCROOT)/../iOS-WebP",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
