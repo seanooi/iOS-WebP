@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>iOS-WebP by seanooi</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>iOS-WebP</h1>
+        <h2>Google&#39;s WebP image format decoder and encoder for iOS</h2>
+        <a href="https://github.com/seanooi/iOS-WebP" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="ios-webp" class="anchor" href="#ios-webp"><span class="octicon octicon-link"></span></a>iOS-WebP</h1>
+
+<p>Most apps nowadays enhance user experience with the use of images, and one of the issues I've noticed with that is the amount of time it takes to load and image. (<em>Not everyone has the luxury of a fast connection</em>)</p>
+
+<p>Google's WebP image format offers better compression compared to PNG or JPEG, allowing apps to send/retrieve images with smaller file sizes, reducing request times and hopefully providing a better user experience.</p>
+
+<p><img src="http://i.imgur.com/V4fBG1h.png" alt="alt demo" title="Demo Screenshot"></p>
+
+<h1>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h1>
+
+<h3>
+<a name="the-cocoapods-way" class="anchor" href="#the-cocoapods-way"><span class="octicon octicon-link"></span></a>The CocoaPods Way</h3>
+
+<div class="highlight highlight-ruby"><pre><span class="n">pod</span> <span class="s1">'iOS-WebP'</span><span class="p">,</span> <span class="s1">'0.2'</span>
+</pre></div>
+
+<h3>
+<a name="the-manual-way" class="anchor" href="#the-manual-way"><span class="octicon octicon-link"></span></a>The Manual Way</h3>
+
+<p>Include the 3 files inside the <code>iOS-WebP</code> folder into your project:</p>
+
+<ul>
+<li><code>UIImage+WebP.h</code></li>
+<li><code>UIImage+WebP.m</code></li>
+<li><code>WebP.framework</code></li>
+</ul><h1>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>Don't forget to <code>#import "UIImage+WebP.h"</code> or <code>#import &lt;UIImage+WebP.h&gt;</code> if you're using cocoapods.
+There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</strong> WebP format, converting images <strong>from</strong> WebP format, and setting an image's transparency.</p>
+
+<div class="highlight highlight-objc"><pre><span class="k">+</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageFromWebP:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">filePath</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageToWebP:</span><span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">quality:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">quality</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageByApplyingAlpha:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">alpha</span><span class="p">;</span>
+</pre></div>
+
+<p>Using the methods are pretty easy:</p>
+
+<div class="highlight highlight-objc"><pre><span class="c1">//Converting To WebP</span>
+<span class="c1">// quality value is [0, 100]</span>
+<span class="n">NSData</span> <span class="o">*</span><span class="n">webpData</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="n">imageToWebP</span><span class="o">:</span><span class="p">[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="s">@"image.jpg"</span><span class="p">]</span> <span class="n">quality</span><span class="o">:</span><span class="mi">75</span><span class="p">];</span>
+
+<span class="c1">//Converting From WebP</span>
+<span class="n">UIImage</span> <span class="o">*</span><span class="n">webPImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="n">imageFromWebP</span><span class="o">:</span><span class="s">@"/path/to/file"</span><span class="p">];</span>
+
+<span class="c1">//Setting image transparency</span>
+<span class="c1">//alpha value is [0, 1]</span>
+<span class="n">UIImage</span> <span class="o">*</span><span class="n">transparencyImage</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="n">image</span><span class="p">.</span><span class="n">jpg</span><span class="p">]</span> <span class="n">imageByApplyingAlpha</span><span class="o">:</span><span class="mf">0.5</span><span class="p">];</span>
+</pre></div>
+
+<h1>
+<a name="to-do" class="anchor" href="#to-do"><span class="octicon octicon-link"></span></a>To-Do</h1>
+
+<ul>
+<li>Fix gray background on WebP images with transparency values &lt; 1</li>
+</ul><h1>
+<a name="credit" class="anchor" href="#credit"><span class="octicon octicon-link"></span></a>Credit</h1>
+
+<ul>
+<li>Based off <a href="https://github.com/carsonmcdonald/WebP-iOS-example" title="WebP-iOS-example">WebP-iOS-example</a> by Carson McDonald</li>
+<li>Image transparency function contributed by <a href="https://github.com/shmidt">shmidt</a>
+</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/seanooi/iOS-WebP/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/seanooi/iOS-WebP/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/seanooi/iOS-WebP"></a> is maintained by <a href="https://github.com/seanooi">seanooi</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
