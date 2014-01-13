@@ -39,5 +39,5 @@ UIImage *webPImage = [UIImage imageFromWebP:@"/path/to/file"]
 
 Credit
 ========
-Based off [WebP-iOS-example](https://github.com/carsonmcdonald/WebP-iOS-example "WebP-iOS-example") by Carson McDonald
-Image transparency function contributed by [shmidt](https://github.com/shmidt)
+* Based off [WebP-iOS-example](https://github.com/carsonmcdonald/WebP-iOS-example "WebP-iOS-example") by Carson McDonald
+* Image transparency function contributed by [shmidt](https://github.com/shmidt)
