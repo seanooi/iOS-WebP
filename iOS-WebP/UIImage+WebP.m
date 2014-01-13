@@ -52,15 +52,15 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
 {
-    NSAssert(image != nil, @"imageToWebP:quality image cannot be nil");
-    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality quality has to be [0, 100]");
+    NSAssert(image != nil, @"imageToWebP:quality:alpha image cannot be nil");
+    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:alpha quality has to be [0, 100]");
     
     CGImageRef webPImageRef = image.CGImage;
     size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
     size_t webPBitsPerComponent = CGImageGetBitsPerComponent(webPImageRef);
     CGColorSpaceRef webPColorSpaceRef = CGColorSpaceCreateDeviceRGB();
-    CGBitmapInfo webPBitmapInfo = CGImageGetBitmapInfo(webPImageRef);
-    
+    CGImageAlphaInfo webPBitmapInfo = CGImageGetAlphaInfo(webPImageRef);
+
     size_t webPImageWidth = CGImageGetWidth(webPImageRef);
     size_t webPImageHeight = CGImageGetHeight(webPImageRef);
     
@@ -70,10 +70,15 @@ static void free_image_data(void *info, const void *data, size_t size)
     uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDatRef);
     uint8_t *webPOutput;
     
-    CGContextRef context = CGBitmapContextCreate(webPImageData, webPImageWidth, webPImageHeight, webPBitsPerComponent, webPBytesPerRow, webPColorSpaceRef, webPBitmapInfo);
+    CGContextRef context = CGBitmapContextCreate(webPImageData, webPImageWidth, webPImageHeight, webPBitsPerComponent, webPBytesPerRow, webPColorSpaceRef, (CGBitmapInfo)webPBitmapInfo);
     void *data = CGBitmapContextGetData(context);
     
-    size_t encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
+    size_t encodedData;
+    
+    if(webPBitmapInfo == kCGImageAlphaNoneSkipLast)
+        encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
+    else
+        encodedData = WebPEncodeBGRA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
     
     NSData *webPFinalData = [NSData dataWithBytes:webPOutput length:encodedData];
     
@@ -85,6 +90,35 @@ static void free_image_data(void *info, const void *data, size_t size)
     CFRelease(webPImageDatRef);
     
     return webPFinalData;
+}
+
+- (UIImage *)imageByApplyingAlpha:(CGFloat) alpha
+{
+    NSAssert(alpha >= 0 && alpha <= 1, @"imageByApplyingAlpha:alpha alpha has to be [0, 1]");
+    
+    if (alpha < 1) {
+        UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
+        
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGRect area = CGRectMake(0, 0, self.size.width, self.size.height);
+        
+        CGContextScaleCTM(ctx, 1, -1);
+        CGContextTranslateCTM(ctx, 0, -area.size.height);
+        
+        CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
+        CGContextSetAlpha(ctx, alpha);
+        
+        CGContextDrawImage(ctx, area, self.CGImage);
+        
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        return newImage;
+    }
+    else {
+        return self;
+    }
 }
 
 @end

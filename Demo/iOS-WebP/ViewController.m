@@ -26,14 +26,16 @@
     [super viewDidLoad];
 	NSString *imageFileName = @"Rosetta.jpg";
     CGFloat quality = 75.0f;
+    CGFloat alpha = 0.5f;
     
     NSString *normalImg = [[NSBundle mainBundle] pathForResource:@"Rosetta" ofType:@"jpg"];
-    [normalView setImage:[UIImage imageNamed:imageFileName]];
+    UIImage *demoImage = [[UIImage imageNamed:imageFileName] imageByApplyingAlpha:alpha];
+    [normalView setImage:demoImage];
     
     uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:normalImg error:nil] fileSize];
     [normalLabel setText:[NSString stringWithFormat:@"JPG format file size: %.2f KB", (double)fileSize/1024]];
     
-    NSData *webpData = [UIImage imageToWebP:[UIImage imageNamed:imageFileName] quality:quality];
+    NSData *webpData = [UIImage imageToWebP:demoImage quality:quality];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *webpPath = [[NSString alloc] initWithString: [paths[0] stringByAppendingPathComponent:@"image.webp"]];
     
