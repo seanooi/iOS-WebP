@@ -21,21 +21,30 @@ Include the 3 files inside the `iOS-WebP` folder into your project:
 
 #Usage
 Don't forget to `#import "UIImage+WebP.h"` or `#import <UIImage+WebP.h>` if you're using cocoapods.
-There are 2 methods in `iOS-WebP`, converting images __to__ WebP format and converting images __from__ WebP format.
-```objective-c
+There are 3 methods in `iOS-WebP`, converting images __to__ WebP format, converting images __from__ WebP format, and setting an image's transparency.
+```objc
 + (UIImage *)imageFromWebP:(NSString *)filePath;
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality;
+- (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;
 ```
 
 Using the methods are pretty easy:
 
-```objective-c
+```objc
 //Converting To WebP
+// quality value is [0, 100]
 NSData *webpData = [UIImage imageToWebP:[UIImage imageNamed:@"image.jpg"] quality:75];
 
 //Converting From WebP
-UIImage *webPImage = [UIImage imageFromWebP:@"/path/to/file"]
+UIImage *webPImage = [UIImage imageFromWebP:@"/path/to/file"];
+
+//Setting image transparency
+//alpha value is [0, 1]
+UIImage *transparencyImage = [[UIImage imageNamed:image.jpg] imageByApplyingAlpha:0.5];
 ```
+
+#To-Do
+* Fix gray background on WebP images with transparency values < 1
 
 Credit
 ========
