@@ -180,7 +180,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (NSString *)version:(NSInteger)version
 {
-    NSString *hex = [NSString stringWithFormat:@"%06x", version];
+    NSString *hex = [NSString stringWithFormat:@"%06lx", (long)version];
     NSMutableArray *array = [NSMutableArray array];
     for (int x = 0; x < [hex length]; x += 2) {
         [array addObject:@([[hex substringWithRange:NSMakeRange(x, 2)] integerValue])];
