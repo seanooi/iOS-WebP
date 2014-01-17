@@ -20,47 +20,17 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 @implementation UIImage (WebP)
 
-+ (UIImage *)imageFromWebP:(NSString *)filePath
+#pragma mark - Private methods
++ (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality
 {
-    NSAssert(filePath != nil, @"imageFromWebP: filepath cannot be nil");
-    
-    NSError *error = nil;;
-    NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
-    if(error != nil) {
-        NSLog(@"imageFromWebP: error: %@", error.localizedDescription);
-    }
-    
-    int width = 0, height = 0;
-    WebPGetInfo([imgData bytes], [imgData length], &width, &height);
-    
-    uint8_t *data = WebPDecodeRGBA([imgData bytes], [imgData length], &width, &height);
-    
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, width * height * 4, free_image_data);
-    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault |kCGImageAlphaLast;
-    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-    CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4 * width, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);
-        
-    UIImage *result = [UIImage imageWithCGImage:imageRef];
-    
-    CGImageRelease(imageRef);
-    CGColorSpaceRelease(colorSpaceRef);
-    CGDataProviderRelease(provider);
-    
-    return result;
-}
-
-+ (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
-{
-    NSAssert(image != nil, @"imageToWebP:quality:alpha image cannot be nil");
-    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:alpha quality has to be [0, 100]");
+    NSLog(@"WebP Encoder Version: %@", [self version:WebPGetEncoderVersion()]);
     
     CGImageRef webPImageRef = image.CGImage;
     size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
     size_t webPBitsPerComponent = CGImageGetBitsPerComponent(webPImageRef);
     CGColorSpaceRef webPColorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGImageAlphaInfo webPBitmapInfo = CGImageGetAlphaInfo(webPImageRef);
-
+    
     size_t webPImageWidth = CGImageGetWidth(webPImageRef);
     size_t webPImageHeight = CGImageGetHeight(webPImageRef);
     
@@ -92,6 +62,93 @@ static void free_image_data(void *info, const void *data, size_t size)
     return webPFinalData;
 }
 
++ (UIImage *)convertFromWebP:(NSString *)filePath
+{
+    NSLog(@"WebP Decoder Version: %@", [self version:WebPGetDecoderVersion()]);
+    
+    NSError *error = nil;;
+    NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
+    if(error != nil) {
+        NSLog(@"imageFromWebP: error: %@", error.localizedDescription);
+        return nil;
+    }
+    
+    int width = 0, height = 0;
+    WebPGetInfo([imgData bytes], [imgData length], &width, &height);
+    
+    uint8_t *data = WebPDecodeRGBA([imgData bytes], [imgData length], &width, &height);
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, width * height * 4, free_image_data);
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault |kCGImageAlphaLast;
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+    CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4 * width, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);
+    
+    UIImage *result = [UIImage imageWithCGImage:imageRef];
+    
+    CGImageRelease(imageRef);
+    CGColorSpaceRelease(colorSpaceRef);
+    CGDataProviderRelease(provider);
+    
+    return result;
+}
+
+#pragma mark - Synchronous methods
++ (UIImage *)imageFromWebP:(NSString *)filePath
+{
+    NSAssert(filePath != nil, @"imageFromWebP:filePath filePath cannot be nil");
+    
+    return [self convertFromWebP:filePath];
+}
+
++ (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
+{
+    NSAssert(image != nil, @"imageToWebP:quality image cannot be nil");
+    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality quality has to be [0, 100]");
+    
+    return [self convertToWebP:image quality:quality];
+}
+
+#pragma mark - Asynchronous methods
++ (void)imageFromWebP:(NSString *)filePath completion:(void (^)(UIImage *result))completionBlock
+{
+    NSAssert(filePath != nil, @"imageFromWebP:filePath filePath cannot be nil");
+    NSAssert(completionBlock != nil, @"imageFromWebP:filePath:completion completion block cannot be nil");
+    
+    dispatch_queue_t toWebP = dispatch_queue_create("fromWebP", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(toWebP, ^{
+        
+        UIImage *webPImage = [self convertFromWebP:filePath];
+        
+        if(completionBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(webPImage);
+            });
+        }
+    });
+
+}
+
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality completion:(void (^)(NSData *result))completionBlock
+{
+    NSAssert(image != nil, @"imageToWebP:quality:completion image cannot be nil");
+    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:completion quality has to be [0, 100]");
+    NSAssert(completionBlock != nil, @"imageToWebP:quality:completion completion block cannot be nil");
+    
+    dispatch_queue_t toWebP = dispatch_queue_create("toWebP", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(toWebP, ^{
+        
+        NSData *webPFinalData = [self convertToWebP:image quality:quality];
+        
+        if(completionBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(webPFinalData);
+            });
+        }
+    });
+}
+
+#pragma mark - Utilities
 - (UIImage *)imageByApplyingAlpha:(CGFloat) alpha
 {
     NSAssert(alpha >= 0 && alpha <= 1, @"imageByApplyingAlpha:alpha alpha has to be [0, 1]");
@@ -119,6 +176,17 @@ static void free_image_data(void *info, const void *data, size_t size)
     else {
         return self;
     }
+}
+
++ (NSString *)version:(NSInteger)version
+{
+    NSString *hex = [NSString stringWithFormat:@"%06x", version];
+    NSMutableArray *array = [NSMutableArray array];
+    for (int x = 0; x < [hex length]; x += 2) {
+        [array addObject:@([[hex substringWithRange:NSMakeRange(x, 2)] integerValue])];
+    }
+    
+    return [array componentsJoinedByString:@"."];
 }
 
 @end

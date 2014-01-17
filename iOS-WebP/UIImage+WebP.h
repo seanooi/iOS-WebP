@@ -14,4 +14,7 @@
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality;
 - (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;
 
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality completion:(void (^)(NSData *result))completionBlock;
++ (void)imageFromWebP:(NSString *)filePath completion:(void (^)(UIImage *result))completionBlock;
+
 @end
