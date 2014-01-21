@@ -11,7 +11,7 @@
 
 static NSString *imageFileName = @"Rosetta.jpg";
 static CGFloat quality = 75.0f;
-static CGFloat alpha = 0.5f;
+static CGFloat alpha = 0.6f;
 static BOOL asyncConvert = YES;
 
 @interface ViewController ()
@@ -31,8 +31,8 @@ static BOOL asyncConvert = YES;
     [super viewDidLoad];
     
     NSString *normalImg = [[NSBundle mainBundle] pathForResource:@"Rosetta" ofType:@"jpg"];
-    UIImage *demoImage = [[UIImage imageNamed:imageFileName] imageByApplyingAlpha:alpha];
-    [normalView setImage:demoImage];
+    UIImage *demoImage = [UIImage imageNamed:imageFileName];
+    [normalView setImage:[demoImage imageByApplyingAlpha:alpha]];
     
     uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:normalImg error:nil] fileSize];
     [normalLabel setText:[NSString stringWithFormat:@"JPG format file size: %.2f KB", (double)fileSize/1024]];
@@ -45,8 +45,10 @@ static BOOL asyncConvert = YES;
         [self displayImageWithData:webPData];
     }
     else {
-        [UIImage imageToWebP:demoImage quality:quality completion:^(NSData *result) {
+        [UIImage imageToWebP:demoImage quality:quality alpha:alpha completionBlock:^(NSData *result) {
             [self displayImageWithData:result];
+        } failureBlock:^(NSString *error) {
+            NSLog(@"%@", error);
         }];
     }
 }
@@ -54,7 +56,7 @@ static BOOL asyncConvert = YES;
 - (void)displayImageWithData:(NSData *)webPData
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *webPPath = [[NSString alloc] initWithString: [paths[0] stringByAppendingPathComponent:@"image.webp"]];
+    NSString *webPPath = [paths[0] stringByAppendingPathComponent:@"image.webp"];
 
     if ([webPData writeToFile:webPPath atomically:YES]) {
         uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:webPPath error:nil] fileSize];
@@ -64,8 +66,10 @@ static BOOL asyncConvert = YES;
             [convertedView setImage:[UIImage imageFromWebP:webPPath]];
         }
         else {
-            [UIImage imageFromWebP:webPPath completion:^(UIImage *result) {
+            [UIImage imageFromWebP:webPPath completionBlock:^(UIImage *result) {
                 [convertedView setImage:result];
+            }failureBlock:^(NSString *error) {
+                NSLog(@"%@", error);
             }];
         }
     }

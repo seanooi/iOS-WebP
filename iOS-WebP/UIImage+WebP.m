@@ -21,9 +21,13 @@ static void free_image_data(void *info, const void *data, size_t size)
 @implementation UIImage (WebP)
 
 #pragma mark - Private methods
-+ (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality
++ (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha
 {
     NSLog(@"WebP Encoder Version: %@", [self version:WebPGetEncoderVersion()]);
+    
+    if (alpha < 1) {
+        image = [self webPImage:image withAlpha:alpha];
+    }
     
     CGImageRef webPImageRef = image.CGImage;
     size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
@@ -35,9 +39,9 @@ static void free_image_data(void *info, const void *data, size_t size)
     size_t webPImageHeight = CGImageGetHeight(webPImageRef);
     
     CGDataProviderRef webPDataProviderRef = CGImageGetDataProvider(webPImageRef);
-    CFDataRef webPImageDatRef = CGDataProviderCopyData(webPDataProviderRef);
+    CFDataRef webPImageDataRef = CGDataProviderCopyData(webPDataProviderRef);
     
-    uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDatRef);
+    uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDataRef);
     uint8_t *webPOutput;
     
     CGContextRef context = CGBitmapContextCreate(webPImageData, webPImageWidth, webPImageHeight, webPBitsPerComponent, webPBytesPerRow, webPColorSpaceRef, (CGBitmapInfo)webPBitmapInfo);
@@ -45,10 +49,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     
     size_t encodedData;
     
-    if(webPBitmapInfo == kCGImageAlphaNoneSkipLast)
-        encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
-    else
-        encodedData = WebPEncodeBGRA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
+    encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
     
     NSData *webPFinalData = [NSData dataWithBytes:webPOutput length:encodedData];
     
@@ -57,7 +58,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     free(webPOutput);
     CGColorSpaceRelease(webPColorSpaceRef);
     CGContextRelease(context);
-    CFRelease(webPImageDatRef);
+    CFRelease(webPImageDataRef);
     
     return webPFinalData;
 }
@@ -106,43 +107,56 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(image != nil, @"imageToWebP:quality image cannot be nil");
     NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality quality has to be [0, 100]");
     
-    return [self convertToWebP:image quality:quality];
+    return [self convertToWebP:image quality:quality alpha:1];
 }
 
 #pragma mark - Asynchronous methods
-+ (void)imageFromWebP:(NSString *)filePath completion:(void (^)(UIImage *result))completionBlock
++ (void)imageFromWebP:(NSString *)filePath completionBlock:(void (^)(UIImage *result))completionBlock failureBlock:(void (^)(NSString *))failureBlock
 {
-    NSAssert(filePath != nil, @"imageFromWebP:filePath filePath cannot be nil");
-    NSAssert(completionBlock != nil, @"imageFromWebP:filePath:completion completion block cannot be nil");
+    NSAssert(filePath != nil, @"imageFromWebP:filePath:completionBlock:failureBlock filePath cannot be nil");
+    NSAssert(completionBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock completionBlock block cannot be nil");
+    NSAssert(failureBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock failureBlock block cannot be nil");
     
-    dispatch_queue_t toWebP = dispatch_queue_create("fromWebP", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t toWebP = dispatch_queue_create("fromWebP", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(toWebP, ^{
         
         UIImage *webPImage = [self convertFromWebP:filePath];
         
-        if(completionBlock) {
+        if(webPImage) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(webPImage);
+            });
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failureBlock(@"Conversion error");
             });
         }
     });
 
 }
 
-+ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality completion:(void (^)(NSData *result))completionBlock
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSString *error))failureBlock
 {
-    NSAssert(image != nil, @"imageToWebP:quality:completion image cannot be nil");
-    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:completion quality has to be [0, 100]");
-    NSAssert(completionBlock != nil, @"imageToWebP:quality:completion completion block cannot be nil");
+    NSAssert(image != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock image cannot be nil");
+    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:alpha:completionBlock:failureBlock quality has to be [0, 100]");
+    NSAssert(alpha >= 0 && alpha <= 1, @"imageToWebP:quality:alpha:completionBlock:failureBlock alpha has to be [0, 1]");
+    NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock completionBlock cannot be nil");
+    NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock failureBlock block cannot be nil");
     
-    dispatch_queue_t toWebP = dispatch_queue_create("toWebP", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t toWebP = dispatch_queue_create("toWebP", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(toWebP, ^{
         
-        NSData *webPFinalData = [self convertToWebP:image quality:quality];
+        NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha];
         
-        if(completionBlock) {
+        if(webPFinalData) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(webPFinalData);
+            });
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failureBlock(@"Conversion error");
             });
         }
     });
@@ -154,28 +168,75 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(alpha >= 0 && alpha <= 1, @"imageByApplyingAlpha:alpha alpha has to be [0, 1]");
     
     if (alpha < 1) {
-        UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
         
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGRect area = CGRectMake(0, 0, self.size.width, self.size.height);
-        
-        CGContextScaleCTM(ctx, 1, -1);
-        CGContextTranslateCTM(ctx, 0, -area.size.height);
-        
-        CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
-        CGContextSetAlpha(ctx, alpha);
-        
-        CGContextDrawImage(ctx, area, self.CGImage);
-        
-        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        UIGraphicsEndImageContext();
+       UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
+       
+       CGContextRef ctx = UIGraphicsGetCurrentContext();
+       CGRect area = CGRectMake(0, 0, self.size.width, self.size.height);
+       
+       CGContextScaleCTM(ctx, 1, -1);
+       CGContextTranslateCTM(ctx, 0, -area.size.height);
+       
+       CGContextSetAlpha(ctx, alpha);
+       CGContextSetBlendMode(ctx, kCGBlendModeXOR);
+       CGContextSetFillColorWithColor(ctx, [UIColor clearColor].CGColor);
+       
+       CGContextDrawImage(ctx, area, self.CGImage);
+       
+       UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+       
+       UIGraphicsEndImageContext();
         
         return newImage;
+         
     }
     else {
         return self;
     }
+}
+
++ (UIImage *)webPImage:(UIImage *)image withAlpha:(CGFloat)alpha
+{
+    CGImageRef imageRef = image.CGImage;
+    NSUInteger width = CGImageGetWidth(imageRef);
+    NSUInteger height = CGImageGetHeight(imageRef);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    UInt8* pixelBuffer = malloc(height * width * 4);
+    
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    NSUInteger bitsPerComponent = 8;
+    
+    CGContextRef context = CGBitmapContextCreate(pixelBuffer, width, height, bitsPerComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGContextSetRGBFillColor(context, 0, 0, 0, 1);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+    CGContextRelease(context);
+    
+    CGDataProviderRef dataProviderRef = CGImageGetDataProvider(imageRef);
+    CFDataRef dataRef = CGDataProviderCopyData(dataProviderRef);
+    
+    GLubyte *pixels = (GLubyte *)CFDataGetBytePtr(dataRef);
+    
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            int byteIndex = ((width * 4) * y) + (x * 4);
+            pixelBuffer[byteIndex + 3] = pixels[byteIndex +3 ]*alpha;
+        }
+    }
+    
+    CGContextRef ctx = CGBitmapContextCreate(pixelBuffer, width, height, bitsPerComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGImageRef newImgRef = CGBitmapContextCreateImage(ctx);
+    
+    free(pixelBuffer);
+    CFRelease(dataRef);
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(ctx);
+    
+    UIImage *newImage = [UIImage imageWithCGImage:newImgRef];
+    CGImageRelease(newImgRef);
+    
+    return newImage;
 }
 
 + (NSString *)version:(NSInteger)version
