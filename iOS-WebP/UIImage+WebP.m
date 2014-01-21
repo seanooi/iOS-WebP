@@ -52,8 +52,8 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
 {
-    NSAssert(image != nil, @"imageToWebP:quality:alpha image cannot be nil");
-    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:alpha quality has to be [0, 100]");
+    NSAssert(image != nil, @"imageToWebP:quality: image cannot be nil");
+    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality: quality has to be [0, 100]");
     
     CGImageRef webPImageRef = image.CGImage;
     size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
