@@ -117,7 +117,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(completionBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock completionBlock block cannot be nil");
     NSAssert(failureBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock failureBlock block cannot be nil");
     
-    dispatch_queue_t toWebP = dispatch_queue_create("fromWebP", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_queue_t toWebP = dispatch_queue_create("com.seanooi.ioswebp.fromwebp", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(toWebP, ^{
         
         UIImage *webPImage = [self convertFromWebP:filePath];
@@ -133,7 +133,6 @@ static void free_image_data(void *info, const void *data, size_t size)
             });
         }
     });
-
 }
 
 + (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSString *error))failureBlock
@@ -144,7 +143,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock completionBlock cannot be nil");
     NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock failureBlock block cannot be nil");
     
-    dispatch_queue_t toWebP = dispatch_queue_create("toWebP", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_queue_t toWebP = dispatch_queue_create("com.seanooi.ioswebp.towebp", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(toWebP, ^{
         
         NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha];
