@@ -10,6 +10,7 @@
 #import <WebP/decode.h>
 #import <WebP/encode.h>
 
+// This gets called when the UIImage gets collected and frees the underlying image.
 static void free_image_data(void *info, const void *data, size_t size)
 {
     if(info != NULL)
@@ -29,6 +30,8 @@ static void free_image_data(void *info, const void *data, size_t size)
         image = [self webPImage:image withAlpha:alpha];
     }
     
+    // Construct CGCOntextRef from image to be encoded.
+    // stride == BytesPerRow
     CGImageRef webPImageRef = image.CGImage;
     size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
     size_t webPBitsPerComponent = CGImageGetBitsPerComponent(webPImageRef);
@@ -47,12 +50,11 @@ static void free_image_data(void *info, const void *data, size_t size)
     CGContextRef context = CGBitmapContextCreate(webPImageData, webPImageWidth, webPImageHeight, webPBitsPerComponent, webPBytesPerRow, webPColorSpaceRef, (CGBitmapInfo)webPBitmapInfo);
     void *data = CGBitmapContextGetData(context);
     
-    size_t encodedData;
-    
-    encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
-    
+    // Encode the image into `webPOutput` and pass it into `NSData` to be returned to caller
+    size_t encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
     NSData *webPFinalData = [NSData dataWithBytes:webPOutput length:encodedData];
     
+    // Free resources to avoid memory leaks
     data = nil;
     free(data);
     free(webPOutput);
@@ -67,6 +69,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 {
     NSLog(@"WebP Decoder Version: %@", [self version:WebPGetDecoderVersion()]);
     
+    // If passed `filepath` is invalid, return nil to caller and log error in console
     NSError *error = nil;;
     NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
     if(error != nil) {
@@ -74,19 +77,23 @@ static void free_image_data(void *info, const void *data, size_t size)
         return nil;
     }
     
+    // `WebPGetInfo` weill return image width and height
     int width = 0, height = 0;
     WebPGetInfo([imgData bytes], [imgData length], &width, &height);
     
+    // Decode image into RGBA value array
     uint8_t *data = WebPDecodeRGBA([imgData bytes], [imgData length], &width, &height);
     
+    // Construct UIImage from the decoded RGBA value array
     CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, width * height * 4, free_image_data);
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault |kCGImageAlphaLast;
     CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-    CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4 * width, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);
     
+    CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4 * width, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);
     UIImage *result = [UIImage imageWithCGImage:imageRef];
     
+    // Free resources to avoid memory leaks
     CGImageRelease(imageRef);
     CGColorSpaceRelease(colorSpaceRef);
     CGDataProviderRelease(provider);
@@ -117,11 +124,14 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(completionBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock completionBlock block cannot be nil");
     NSAssert(failureBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock failureBlock block cannot be nil");
     
+    // Create dispatch_queue_t for decoding WebP concurrently
     dispatch_queue_t fromWebPQueue = dispatch_queue_create("com.seanooi.ioswebp.fromwebp", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(fromWebPQueue, ^{
         
         UIImage *webPImage = [self convertFromWebP:filePath];
         
+        // Return results to caller on main thread in completion block is `webPImage` != nil
+        // Else return in failure block
         if(webPImage) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(webPImage);
@@ -143,11 +153,14 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock completionBlock cannot be nil");
     NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock failureBlock block cannot be nil");
     
+    // Create dispatch_queue_t for encoding WebP concurrently
     dispatch_queue_t toWebPQueue = dispatch_queue_create("com.seanooi.ioswebp.towebp", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(toWebPQueue, ^{
         
         NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha];
         
+        // Return results to caller on main thread in completion block is `webPFinalData` != nil
+        // Else return in failure block
         if(webPFinalData) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(webPFinalData);
@@ -196,6 +209,9 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (UIImage *)webPImage:(UIImage *)image withAlpha:(CGFloat)alpha
 {
+    // CGImageAlphaInfo of images with alpha are kCGImageAlphaPremultipliedFirst
+    // Convert to kCGImageAlphaPremultipliedLast to avoid gray-ish background when encoding alpha images to WebP format
+    
     CGImageRef imageRef = image.CGImage;
     NSUInteger width = CGImageGetWidth(imageRef);
     NSUInteger height = CGImageGetHeight(imageRef);
@@ -240,6 +256,9 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (NSString *)version:(NSInteger)version
 {
+    // Convert version number to hexadecimal and parse it accordingly
+    // E.g: v2.5.7 is 0x020507
+    
     NSString *hex = [NSString stringWithFormat:@"%06lx", (long)version];
     NSMutableArray *array = [NSMutableArray array];
     for (int x = 0; x < [hex length]; x += 2) {
