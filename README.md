@@ -30,7 +30,7 @@ There are 3 methods in `iOS-WebP`, converting images __to__ WebP format, convert
 - (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;
 ```
 
-Encoding and decoding of images are done in the background thread and results returned on the main thread so as not to lock the main thread, allowing the UI to be updated as needed.
+Encoding and decoding of images are done in the background thread and results returned in the completion block on the main thread so as not to lock the main thread, allowing the UI to be updated as needed.
 
 #### Converting To WebP
 
