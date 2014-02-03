@@ -235,7 +235,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            int byteIndex = ((width * 4) * y) + (x * 4);
+            NSInteger byteIndex = ((width * 4) * y) + (x * 4);
             pixelBuffer[byteIndex + 3] = pixels[byteIndex +3 ]*alpha;
         }
     }
