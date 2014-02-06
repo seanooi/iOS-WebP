@@ -45,10 +45,14 @@ static BOOL asyncConvert = YES;
         [self displayImageWithData:webPData];
     }
     else {
-        [UIImage imageToWebP:demoImage quality:quality alpha:alpha completionBlock:^(NSData *result) {
+        configParam.lossless = 0;
+        configParam.filter_sharpness = 9;
+        configParam.sns_strength = 80;
+        
+        [UIImage imageToWebP:demoImage quality:quality alpha:alpha config:WebPConfigNull completionBlock:^(NSData *result) {
             [self displayImageWithData:result];
-        } failureBlock:^(NSString *error) {
-            NSLog(@"%@", error);
+        } failureBlock:^(NSError *error) {
+            NSLog(@"%@", error.localizedDescription);
         }];
     }
 }
@@ -57,7 +61,7 @@ static BOOL asyncConvert = YES;
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *webPPath = [paths[0] stringByAppendingPathComponent:@"image.webp"];
-
+    
     if ([webPData writeToFile:webPPath atomically:YES]) {
         uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:webPPath error:nil] fileSize];
         [convertedLabel setText:[NSString stringWithFormat:@"WEBP format file size: %.2f KB at %.f%% quality", (double)fileSize/1024, quality]];
@@ -68,8 +72,8 @@ static BOOL asyncConvert = YES;
         else {
             [UIImage imageFromWebP:webPPath completionBlock:^(UIImage *result) {
                 [convertedView setImage:result];
-            }failureBlock:^(NSString *error) {
-                NSLog(@"%@", error);
+            }failureBlock:^(NSError *error) {
+                NSLog(@"%@", error.localizedDescription);
             }];
         }
     }

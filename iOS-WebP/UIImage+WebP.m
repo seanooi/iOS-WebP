@@ -7,8 +7,8 @@
 //
 
 #import "UIImage+WebP.h"
-#import <WebP/decode.h>
-#import <WebP/encode.h>
+
+WebPConfig WebPConfigNull = {0};
 
 // This gets called when the UIImage gets collected and frees the underlying image.
 static void free_image_data(void *info, const void *data, size_t size)
@@ -22,7 +22,8 @@ static void free_image_data(void *info, const void *data, size_t size)
 @implementation UIImage (WebP)
 
 #pragma mark - Private methods
-+ (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha
+
++ (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha config:(WebPConfig)config error:(NSError **)error
 {
     NSLog(@"WebP Encoder Version: %@", [self version:WebPGetEncoderVersion()]);
     
@@ -30,62 +31,150 @@ static void free_image_data(void *info, const void *data, size_t size)
         image = [self webPImage:image withAlpha:alpha];
     }
     
-    // Construct CGCOntextRef from image to be encoded.
-    // stride == BytesPerRow
     CGImageRef webPImageRef = image.CGImage;
     size_t webPBytesPerRow = CGImageGetBytesPerRow(webPImageRef);
-    size_t webPBitsPerComponent = CGImageGetBitsPerComponent(webPImageRef);
-    CGColorSpaceRef webPColorSpaceRef = CGColorSpaceCreateDeviceRGB();
-    CGImageAlphaInfo webPBitmapInfo = CGImageGetAlphaInfo(webPImageRef);
     
     size_t webPImageWidth = CGImageGetWidth(webPImageRef);
     size_t webPImageHeight = CGImageGetHeight(webPImageRef);
     
     CGDataProviderRef webPDataProviderRef = CGImageGetDataProvider(webPImageRef);
-    CFDataRef webPImageDataRef = CGDataProviderCopyData(webPDataProviderRef);
+    CFDataRef webPImageDatRef = CGDataProviderCopyData(webPDataProviderRef);
     
-    uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDataRef);
-    uint8_t *webPOutput;
+    uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDatRef);
     
-    CGContextRef context = CGBitmapContextCreate(webPImageData, webPImageWidth, webPImageHeight, webPBitsPerComponent, webPBytesPerRow, webPColorSpaceRef, (CGBitmapInfo)webPBitmapInfo);
-    void *data = CGBitmapContextGetData(context);
+    if (!WebPConfigPreset(&config, WEBP_PRESET_DEFAULT, quality)) {
+        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setValue:@"Configuration preset failed to initialize." forKey:NSLocalizedDescriptionKey];
+        if(error != NULL)
+            *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%@.errorDomain",  [[NSBundle mainBundle] bundleIdentifier]] code:-101 userInfo:errorDetail];
+        
+        CFRelease(webPImageDatRef);
+        return nil;
+    }
     
-    // Encode the image into `webPOutput` and pass it into `NSData` to be returned to caller
-    size_t encodedData = WebPEncodeRGBA(data, (int)webPImageWidth, (int)webPImageHeight, (int)webPBytesPerRow, quality, &webPOutput);
-    NSData *webPFinalData = [NSData dataWithBytes:webPOutput length:encodedData];
+    //config.filter_sharpness = 7;
+    //config.low_memory = 1;
     
-    // Free resources to avoid memory leaks
-    data = nil;
-    free(data);
-    free(webPOutput);
-    CGColorSpaceRelease(webPColorSpaceRef);
-    CGContextRelease(context);
-    CFRelease(webPImageDataRef);
+    if (!WebPValidateConfig(&config)) {
+        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setValue:@"One or more configuration parameters are beyond their valid ranges." forKey:NSLocalizedDescriptionKey];
+        if(error != NULL)
+            *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%@.errorDomain",  [[NSBundle mainBundle] bundleIdentifier]] code:-101 userInfo:errorDetail];
+        
+        CFRelease(webPImageDatRef);
+        return nil;
+    }
+    
+    WebPPicture pic;
+    if (!WebPPictureInit(&pic)) {
+        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setValue:@"Failed to initialize structure. Version mismatch." forKey:NSLocalizedDescriptionKey];
+        if(error != NULL)
+            *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%@.errorDomain",  [[NSBundle mainBundle] bundleIdentifier]] code:-101 userInfo:errorDetail];
+        
+        CFRelease(webPImageDatRef);
+        return nil;
+    }
+    pic.width = (int)webPImageWidth;
+    pic.height = (int)webPImageHeight;
+    pic.colorspace = WEBP_YUV420;
+    
+    WebPPictureImportRGBA(&pic, webPImageData, (int)webPBytesPerRow);
+    WebPPictureARGBToYUVA(&pic, WEBP_YUV420);
+    WebPCleanupTransparentArea(&pic);
+    
+    WebPMemoryWriter writer;
+    WebPMemoryWriterInit(&writer);
+    pic.writer = WebPMemoryWrite;
+    pic.custom_ptr = &writer;
+    WebPEncode(&config, &pic);
+    
+    NSData *webPFinalData = [NSData dataWithBytes:writer.mem length:writer.size];
+    
+    WebPPictureFree(&pic);
+    CFRelease(webPImageDatRef);
     
     return webPFinalData;
 }
 
-+ (UIImage *)convertFromWebP:(NSString *)filePath
++ (UIImage *)convertFromWebP:(NSString *)filePath error:(NSError **)error
 {
     NSLog(@"WebP Decoder Version: %@", [self version:WebPGetDecoderVersion()]);
     
     // If passed `filepath` is invalid, return nil to caller and log error in console
-    NSError *error = nil;;
-    NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
-    if(error != nil) {
-        NSLog(@"imageFromWebP: error: %@", error.localizedDescription);
+    NSError *dataError = nil;;
+    NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&dataError];
+    if(dataError != nil) {
+        NSLog(@"imageFromWebP: error: %@", dataError.localizedDescription);
         return nil;
     }
     
     // `WebPGetInfo` weill return image width and height
     int width = 0, height = 0;
-    WebPGetInfo([imgData bytes], [imgData length], &width, &height);
+    if(!WebPGetInfo([imgData bytes], [imgData length], &width, &height)) {
+        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setValue:@"Header formatting error." forKey:NSLocalizedDescriptionKey];
+        if(error != NULL)
+            *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%@.errorDomain",  [[NSBundle mainBundle] bundleIdentifier]] code:-101 userInfo:errorDetail];
+        return nil;
+    }
     
-    // Decode image into RGBA value array
-    uint8_t *data = WebPDecodeRGBA([imgData bytes], [imgData length], &width, &height);
+    WebPDecoderConfig config;
+    if(!WebPInitDecoderConfig(&config)) {
+        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setValue:@"Failed to initialize structure. Version mismatch." forKey:NSLocalizedDescriptionKey];
+        if(error != NULL)
+            *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%@.errorDomain",  [[NSBundle mainBundle] bundleIdentifier]] code:-101 userInfo:errorDetail];
+        return nil;
+    }
+    
+    config.options.no_fancy_upsampling = 1;
+    config.options.bypass_filtering = 1;
+    config.options.use_threads = 1;
+    config.output.colorspace = MODE_RGBA;
+    
+    // Decode the WebP image data into a RGBA value array
+    VP8StatusCode decodeStatus = WebPDecode([imgData bytes], [imgData length], &config);
+    if (decodeStatus != VP8_STATUS_OK) {
+        NSString *errorString;
+        
+        switch (decodeStatus) {
+            case VP8_STATUS_OUT_OF_MEMORY:
+                errorString = @"OUT_OF_MEMORY";
+                break;
+            case VP8_STATUS_INVALID_PARAM:
+                errorString = @"INVALID_PARAM";
+                break;
+            case VP8_STATUS_BITSTREAM_ERROR:
+                errorString = @"BITSTREAM_ERROR";
+                break;
+            case VP8_STATUS_UNSUPPORTED_FEATURE:
+                errorString = @"UNSUPPORTED_FEATURE";
+                break;
+            case VP8_STATUS_SUSPENDED:
+                errorString = @"SUSPENDED";
+                break;
+            case VP8_STATUS_USER_ABORT:
+                errorString = @"USER_ABORT";
+                break;
+            case VP8_STATUS_NOT_ENOUGH_DATA:
+                errorString = @"NOT_ENOUGH_DATA";
+                break;
+            default:
+                errorString = @"UNEXPECTED_ERROR";
+                break;
+        }
+        
+        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setValue:errorString forKey:NSLocalizedDescriptionKey];
+        if(error != NULL)
+            *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%@.errorDomain",  [[NSBundle mainBundle] bundleIdentifier]] code:-101 userInfo:errorDetail];
+        return nil;
+    }
     
     // Construct UIImage from the decoded RGBA value array
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, width * height * 4, free_image_data);
+    CGDataProviderRef provider = CGDataProviderCreateWithData(&config, config.output.u.RGBA.rgba, width  *height * 4, free_image_data);
+    
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault |kCGImageAlphaLast;
     CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
@@ -106,7 +195,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 {
     NSAssert(filePath != nil, @"imageFromWebP:filePath filePath cannot be nil");
     
-    return [self convertFromWebP:filePath];
+    return [self convertFromWebP:filePath error:nil];
 }
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
@@ -114,11 +203,11 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(image != nil, @"imageToWebP:quality image cannot be nil");
     NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality quality has to be [0, 100]");
     
-    return [self convertToWebP:image quality:quality alpha:1];
+    return [self convertToWebP:image quality:quality alpha:1 config:WebPConfigNull error:nil];
 }
 
 #pragma mark - Asynchronous methods
-+ (void)imageFromWebP:(NSString *)filePath completionBlock:(void (^)(UIImage *result))completionBlock failureBlock:(void (^)(NSString *))failureBlock
++ (void)imageFromWebP:(NSString *)filePath completionBlock:(void (^)(UIImage *result))completionBlock failureBlock:(void (^)(NSError *error))failureBlock
 {
     NSAssert(filePath != nil, @"imageFromWebP:filePath:completionBlock:failureBlock filePath cannot be nil");
     NSAssert(completionBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock completionBlock block cannot be nil");
@@ -128,7 +217,8 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_queue_t fromWebPQueue = dispatch_queue_create("com.seanooi.ioswebp.fromwebp", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(fromWebPQueue, ^{
         
-        UIImage *webPImage = [self convertFromWebP:filePath];
+        NSError *error = nil;
+        UIImage *webPImage = [self convertFromWebP:filePath error:&error];
         
         // Return results to caller on main thread in completion block is `webPImage` != nil
         // Else return in failure block
@@ -139,13 +229,13 @@ static void free_image_data(void *info, const void *data, size_t size)
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                failureBlock(@"Conversion error");
+                failureBlock(error);
             });
         }
     });
 }
 
-+ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSString *error))failureBlock
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha config:(WebPConfig)config completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSError *error))failureBlock
 {
     NSAssert(image != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock image cannot be nil");
     NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:alpha:completionBlock:failureBlock quality has to be [0, 100]");
@@ -157,18 +247,19 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_queue_t toWebPQueue = dispatch_queue_create("com.seanooi.ioswebp.towebp", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(toWebPQueue, ^{
         
-        NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha];
+        NSError *error = nil;
+        NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha config:config error:&error];
         
         // Return results to caller on main thread in completion block is `webPFinalData` != nil
         // Else return in failure block
-        if(webPFinalData) {
+        if(!error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(webPFinalData);
             });
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                failureBlock(@"Conversion error");
+                failureBlock(error);
             });
         }
     });

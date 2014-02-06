@@ -7,14 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebP/decode.h>
+#import <WebP/encode.h>
+
+extern struct WebPConfig WebPConfigNull;
+WebPConfig configParam;
 
 @interface UIImage (WebP)
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality __attribute((deprecated("use imageToWebP:quality:alpha:completionBlock:failureBlock: instead")));
 + (UIImage *)imageFromWebP:(NSString *)filePath __attribute((deprecated("use imageFromWebP:filePath:completionBlock:failureBlock: instead")));
 
-+ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSString *error))failureBlock;
-+ (void)imageFromWebP:(NSString *)filePath completionBlock:(void (^)(UIImage *result))completionBlock failureBlock:(void (^)(NSString *error))failureBlock;
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha config:(WebPConfig)config
+    completionBlock:(void (^)(NSData *result))completionBlock
+       failureBlock:(void (^)(NSError *error))failureBlock;
+
++ (void)imageFromWebP:(NSString *)filePath
+      completionBlock:(void (^)(UIImage *result))completionBlock
+         failureBlock:(void (^)(NSError *error))failureBlock;
 
 - (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;
 
