@@ -10,15 +10,12 @@
 #import <WebP/decode.h>
 #import <WebP/encode.h>
 
-extern struct WebPConfig WebPConfigNull;
-WebPConfig configParam;
-
 @interface UIImage (WebP)
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality __attribute((deprecated("use imageToWebP:quality:alpha:completionBlock:failureBlock: instead")));
 + (UIImage *)imageFromWebP:(NSString *)filePath __attribute((deprecated("use imageFromWebP:filePath:completionBlock:failureBlock: instead")));
 
-+ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha config:(WebPConfig)config
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset
     completionBlock:(void (^)(NSData *result))completionBlock
        failureBlock:(void (^)(NSError *error))failureBlock;
 

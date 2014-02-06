@@ -8,8 +8,6 @@
 
 #import "UIImage+WebP.h"
 
-WebPConfig WebPConfigNull = {0};
-
 // This gets called when the UIImage gets collected and frees the underlying image.
 static void free_image_data(void *info, const void *data, size_t size)
 {
@@ -23,7 +21,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 #pragma mark - Private methods
 
-+ (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha config:(WebPConfig)config error:(NSError **)error
++ (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset error:(NSError **)error
 {
     NSLog(@"WebP Encoder Version: %@", [self version:WebPGetEncoderVersion()]);
     
@@ -42,7 +40,11 @@ static void free_image_data(void *info, const void *data, size_t size)
     
     uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDatRef);
     
-    if (!WebPConfigPreset(&config, WEBP_PRESET_DEFAULT, quality)) {
+    //NSLog(@"%s [WebPValidateConfig:config]: %i",strrchr(__FILE__, '/'), WebPValidateConfig(&configParam));
+    //NSLog(@"%s [WebPValidateConfig:WebPConfigNull]: %i",strrchr(__FILE__, '/'), WebPValidateConfig(&WebPConfigNull));
+    
+    WebPConfig config;
+    if (!WebPConfigPreset(&config, preset, quality)) {
         NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
         [errorDetail setValue:@"Configuration preset failed to initialize." forKey:NSLocalizedDescriptionKey];
         if(error != NULL)
@@ -51,9 +53,6 @@ static void free_image_data(void *info, const void *data, size_t size)
         CFRelease(webPImageDatRef);
         return nil;
     }
-    
-    //config.filter_sharpness = 7;
-    //config.low_memory = 1;
     
     if (!WebPValidateConfig(&config)) {
         NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
@@ -203,7 +202,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(image != nil, @"imageToWebP:quality image cannot be nil");
     NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality quality has to be [0, 100]");
     
-    return [self convertToWebP:image quality:quality alpha:1 config:WebPConfigNull error:nil];
+    return [self convertToWebP:image quality:quality alpha:1 preset:WEBP_PRESET_DEFAULT error:nil];
 }
 
 #pragma mark - Asynchronous methods
@@ -235,7 +234,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     });
 }
 
-+ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha config:(WebPConfig)config completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSError *error))failureBlock
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSError *error))failureBlock
 {
     NSAssert(image != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock image cannot be nil");
     NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:alpha:completionBlock:failureBlock quality has to be [0, 100]");
@@ -248,7 +247,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_async(toWebPQueue, ^{
         
         NSError *error = nil;
-        NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha config:config error:&error];
+        NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha preset:preset error:&error];
         
         // Return results to caller on main thread in completion block is `webPFinalData` != nil
         // Else return in failure block

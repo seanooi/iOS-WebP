@@ -45,11 +45,7 @@ static BOOL asyncConvert = YES;
         [self displayImageWithData:webPData];
     }
     else {
-        configParam.lossless = 0;
-        configParam.filter_sharpness = 9;
-        configParam.sns_strength = 80;
-        
-        [UIImage imageToWebP:demoImage quality:quality alpha:alpha config:WebPConfigNull completionBlock:^(NSData *result) {
+        [UIImage imageToWebP:demoImage quality:quality alpha:alpha preset:WEBP_PRESET_PHOTO completionBlock:^(NSData *result) {
             [self displayImageWithData:result];
         } failureBlock:^(NSError *error) {
             NSLog(@"%@", error.localizedDescription);
