@@ -163,16 +163,15 @@ static void free_image_data(void *info, const void *data, size_t size)
 #pragma mark - Synchronous methods
 + (UIImage *)imageFromWebP:(NSString *)filePath
 {
-    NSAssert(image != nil, @"imageToWebP:quality: image cannot be nil");
-    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality: quality has to be [0, 100]");
+    NSAssert(filePath != nil, @"imageFromWebP:filePath filePath cannot be nil");
     
     return [self convertFromWebP:filePath error:nil];
 }
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
 {
-    NSAssert(image != nil, @"imageToWebP:quality image cannot be nil");
-    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality quality has to be [0, 100]");
+    NSAssert(image != nil, @"imageToWebP:quality: image cannot be nil");
+    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality: quality has to be [0, 100]");
     
     return [self convertToWebP:image quality:quality alpha:1 preset:WEBP_PRESET_DEFAULT error:nil];
 }
@@ -270,4 +269,98 @@ static void free_image_data(void *info, const void *data, size_t size)
     }
 }
 
++ (UIImage *)webPImage:(UIImage *)image withAlpha:(CGFloat)alpha
+{
+    // CGImageAlphaInfo of images with alpha are kCGImageAlphaPremultipliedFirst
+    // Convert to kCGImageAlphaPremultipliedLast to avoid gray-ish background when encoding alpha images to WebP format
+    
+    CGImageRef imageRef = image.CGImage;
+    NSUInteger width = CGImageGetWidth(imageRef);
+    NSUInteger height = CGImageGetHeight(imageRef);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    UInt8* pixelBuffer = malloc(height * width * 4);
+    
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    NSUInteger bitsPerComponent = 8;
+    
+    CGContextRef context = CGBitmapContextCreate(pixelBuffer, width, height, bitsPerComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGContextSetRGBFillColor(context, 0, 0, 0, 1);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+    CGContextRelease(context);
+    
+    CGDataProviderRef dataProviderRef = CGImageGetDataProvider(imageRef);
+    CFDataRef dataRef = CGDataProviderCopyData(dataProviderRef);
+    
+    GLubyte *pixels = (GLubyte *)CFDataGetBytePtr(dataRef);
+    
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            NSInteger byteIndex = ((width * 4) * y) + (x * 4);
+            pixelBuffer[byteIndex + 3] = pixels[byteIndex +3 ]*alpha;
+        }
+    }
+    
+    CGContextRef ctx = CGBitmapContextCreate(pixelBuffer, width, height, bitsPerComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGImageRef newImgRef = CGBitmapContextCreateImage(ctx);
+    
+    free(pixelBuffer);
+    CFRelease(dataRef);
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(ctx);
+    
+    UIImage *newImage = [UIImage imageWithCGImage:newImgRef];
+    CGImageRelease(newImgRef);
+    
+    return newImage;
+}
+
++ (NSString *)version:(NSInteger)version
+{
+    // Convert version number to hexadecimal and parse it accordingly
+    // E.g: v2.5.7 is 0x020507
+    
+    NSString *hex = [NSString stringWithFormat:@"%06lx", (long)version];
+    NSMutableArray *array = [NSMutableArray array];
+    for (int x = 0; x < [hex length]; x += 2) {
+        [array addObject:@([[hex substringWithRange:NSMakeRange(x, 2)] integerValue])];
+    }
+    
+    return [array componentsJoinedByString:@"."];
+}
+
+#pragma mark - Error statuses
+
++ (NSString *)statusForVP8Code:(VP8StatusCode)code
+{
+    NSString *errorString;
+    switch (code) {
+        case VP8_STATUS_OUT_OF_MEMORY:
+            errorString = @"OUT_OF_MEMORY";
+            break;
+        case VP8_STATUS_INVALID_PARAM:
+            errorString = @"INVALID_PARAM";
+            break;
+        case VP8_STATUS_BITSTREAM_ERROR:
+            errorString = @"BITSTREAM_ERROR";
+            break;
+        case VP8_STATUS_UNSUPPORTED_FEATURE:
+            errorString = @"UNSUPPORTED_FEATURE";
+            break;
+        case VP8_STATUS_SUSPENDED:
+            errorString = @"SUSPENDED";
+            break;
+        case VP8_STATUS_USER_ABORT:
+            errorString = @"USER_ABORT";
+            break;
+        case VP8_STATUS_NOT_ENOUGH_DATA:
+            errorString = @"NOT_ENOUGH_DATA";
+            break;
+        default:
+            errorString = @"UNEXPECTED_ERROR";
+            break;
+    }
+    return errorString;
+}
 @end
