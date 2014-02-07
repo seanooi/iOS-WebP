@@ -52,18 +52,14 @@ Encoding and decoding of images are done in the background thread and results re
 }];
 ```
 
-######WebPPreset possible values
+#####`WebPPreset` possible values
 
-```objc
-typedef enum WebPPreset {
-  WEBP_PRESET_DEFAULT = 0,  // default preset.
-  WEBP_PRESET_PICTURE,      // digital picture, like portrait, inner shot
-  WEBP_PRESET_PHOTO,        // outdoor photograph, with natural lighting
-  WEBP_PRESET_DRAWING,      // hand or line drawing, with high-contrast details
-  WEBP_PRESET_ICON,         // small-sized colorful images
-  WEBP_PRESET_TEXT          // text-like
-} WebPPreset;
-```
+* `WEBP_PRESET_DEFAULT` _(default preset)_
+* `WEBP_PRESET_PICTURE` _(digital picture, like portrait, inner shot)_
+* `WEBP_PRESET_PHOTO`   _(outdoor photograph, with natural lighting)_
+* `WEBP_PRESET_DRAWING` _(hand or line drawing, with high-contrast details)_
+* `WEBP_PRESET_ICON`    _(small-sized colorful images)_
+* `WEBP_PRESET_TEXT`    _(text-like)_
 
 #### Converting From WebP
 
