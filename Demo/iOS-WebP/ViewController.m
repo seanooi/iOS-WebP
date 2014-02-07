@@ -37,7 +37,7 @@ static BOOL asyncConvert = YES;
     [normalView setImage:[demoImage imageByApplyingAlpha:alpha]];
     
     uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:normalImg error:nil] fileSize];
-    [normalLabel setText:[NSString stringWithFormat:@"%@ format file size: %.2f KB",[[normalImg pathExtension] uppercaseString] , (double)fileSize/1024]];
+    [normalLabel setText:[NSString stringWithFormat:@"%@ format file size: %.2f KB with alpha: %.2f",[[normalImg pathExtension] uppercaseString] , (double)fileSize/1024, alpha]];
     
     [convertedView setImage:[UIImage imageNamed:@"default.png"]];
     [convertedLabel setText:@"Waiting..."];
