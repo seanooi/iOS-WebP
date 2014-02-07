@@ -1,0 +1,20 @@
+iOS-WebP 0.3 (February 6, 2014)
+	* [NEW] Block-based encoding and decoding (success/failure block)
+	* [NEW] Decoding and encoding run on background thread
+
+	* [FIX] Update WebP.framework to version 0.4.0 (Issue #4)
+	* [FIX] Compiled WebP.framework to support arm64 architecture (Issue #5)
+	* [FIX] Image with transparency encoding with gray background
+
+----------------------------------------------------------------------------------------------------
+
+iOS-WebP 0.2 (January 21, 2014)
+	* [NEW] Image transparency function
+
+	* [FIX] Image with transparency decoded with blue tint (Issue #2)
+	* [FIX] WebP.framework not found (Issue #1)
+
+----------------------------------------------------------------------------------------------------
+
+iOS-WebP 0.1 (December 22, 2013)
+	* Initial release
