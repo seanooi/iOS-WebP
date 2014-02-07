@@ -23,9 +23,13 @@ Include the 3 files inside the `iOS-WebP` folder into your project:
 Don't forget to `#import "UIImage+WebP.h"` or `#import <UIImage+WebP.h>` if you're using cocoapods.
 There are 3 methods in `iOS-WebP`, converting images __to__ WebP format, converting images __from__ WebP format, and setting an image's transparency.
 ```objc
-+ (void)imageFromWebP:(NSString *)filePath completionBlock:(void (^)(UIImage *result))completionBlock failureBlock:(void (^)(NSString *error))failureBlock;
++ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset
+    completionBlock:(void (^)(NSData *result))completionBlock
+       failureBlock:(void (^)(NSError *error))failureBlock;
 
-+ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha completionBlock:(void (^)(NSData *result))completionBlock failureBlock:(void (^)(NSString *error))failureBlock;
++ (void)imageFromWebP:(NSString *)filePath
+      completionBlock:(void (^)(UIImage *result))completionBlock
+         failureBlock:(void (^)(NSError *error))failureBlock;
 
 - (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;
 ```
@@ -37,15 +41,28 @@ Encoding and decoding of images are done in the background thread and results re
 ```objc
 // quality value is [0, 100]
 // alpha value is [0, 1]
-[UIImage imageToWebP:demoImage quality:75 alpha:0.5 completionBlock:^(NSData *result) {
+[UIImage imageToWebP:[UIImage imageNamed:@"demo.jpg"] quality:quality alpha:alpha preset:WEBP_PRESET_DEFAULT completionBlock:^(NSData *result) {
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
   NSString *webPPath = [paths[0] stringByAppendingPathComponent:@"image.webp"];
   if (![webPData writeToFile:webPPath atomically:YES]) {
     NSLog(@"Failed to save file");
   }
-} failureBlock:^(NSString *error) {
-  NSLog(@"%@", error);
+} failureBlock:^(NSError *error) {
+  NSLog(@"%@", error.localizedDescription);
 }];
+```
+
+######WebPPreset possible values
+
+```objc
+typedef enum WebPPreset {
+  WEBP_PRESET_DEFAULT = 0,  // default preset.
+  WEBP_PRESET_PICTURE,      // digital picture, like portrait, inner shot
+  WEBP_PRESET_PHOTO,        // outdoor photograph, with natural lighting
+  WEBP_PRESET_DRAWING,      // hand or line drawing, with high-contrast details
+  WEBP_PRESET_ICON,         // small-sized colorful images
+  WEBP_PRESET_TEXT          // text-like
+} WebPPreset;
 ```
 
 #### Converting From WebP
@@ -53,8 +70,8 @@ Encoding and decoding of images are done in the background thread and results re
 ```objc
 [UIImage imageFromWebP:@"/path/to/file" completionBlock:^(UIImage *result) {
   UIImageView *myImageView = [[UIImageView alloc] initWithImage:result];
-}failureBlock:^(NSString *error) {
-  NSLog(@"%@", error);
+}failureBlock:^(NSError *error) {
+  NSLog(@"%@", error.localizedDescription);
 }];
 ```
 
@@ -68,4 +85,4 @@ UIImage *transparencyImage = [[UIImage imageNamed:image.jpg] imageByApplyingAlph
 Credit
 ========
 * Based off [WebP-iOS-example](https://github.com/carsonmcdonald/WebP-iOS-example "WebP-iOS-example") by Carson McDonald
-* `- (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;` function contributed by [shmidt](https://github.com/shmidt)
+* `imageByApplyingAlpha:alpha` function contributed by [shmidt](https://github.com/shmidt)
