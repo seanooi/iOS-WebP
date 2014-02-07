@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		146A7D221888FA960093F7D5 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 146A7D211888FA960093F7D5 /* default.png */; };
+		14C4C24518A4675100D78657 /* mn.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C4C24418A4675100D78657 /* mn.png */; };
 		14EFCAF21865B999005742DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF11865B999005742DB /* Foundation.framework */; };
 		14EFCAF41865B999005742DB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF31865B999005742DB /* CoreGraphics.framework */; };
 		14EFCAF61865B999005742DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF51865B999005742DB /* UIKit.framework */; };
@@ -38,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		146A7D211888FA960093F7D5 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		14C4C24418A4675100D78657 /* mn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mn.png; sourceTree = "<group>"; };
 		14EFCAEE1865B999005742DB /* iOS-WebP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-WebP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14EFCAF11865B999005742DB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		14EFCAF31865B999005742DB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -133,6 +137,8 @@
 				14EFCB2D1865BA9B005742DB /* UIImage+WebP.m */,
 				14EFCB261865BA45005742DB /* Rosetta.jpg */,
 				14EFCB271865BA45005742DB /* Rosetta.webp */,
+				14C4C24418A4675100D78657 /* mn.png */,
+				146A7D211888FA960093F7D5 /* default.png */,
 				14EFCAF81865B999005742DB /* Supporting Files */,
 			);
 			path = "iOS-WebP";
@@ -243,11 +249,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14C4C24518A4675100D78657 /* mn.png in Resources */,
 				14EFCB281865BA45005742DB /* Rosetta.jpg in Resources */,
 				14EFCB0A1865B999005742DB /* Images.xcassets in Resources */,
 				14EFCAFC1865B999005742DB /* InfoPlist.strings in Resources */,
 				14EFCB291865BA45005742DB /* Rosetta.webp in Resources */,
 				14EFCB051865B999005742DB /* Main.storyboard in Resources */,
+				146A7D221888FA960093F7D5 /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
