@@ -4,13 +4,13 @@ Most apps nowadays enhance user experience with the use of images, and one of th
 
 Google's WebP image format offers better compression compared to PNG or JPEG, allowing apps to send/retrieve images with smaller file sizes, reducing request times and hopefully provide a better user experience.
 
-![alt demo](http://i.imgur.com/V4fBG1h.png "Demo Screenshot")
+![alt demo](http://i.imgur.com/tUCyYhD.png "Demo Screenshot")
 
 #Getting Started
 
 ###The CocoaPods Way
 ```ruby
-pod 'iOS-WebP', '0.2'
+pod 'iOS-WebP', '0.3'
 ```
 
 ###The Manual Way
