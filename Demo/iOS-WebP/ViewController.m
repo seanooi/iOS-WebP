@@ -9,7 +9,8 @@
 #import "ViewController.h"
 #import "UIImage+WebP.h"
 
-static NSString *imageFileName = @"Rosetta.jpg";
+//static NSString *imageFileName = @"Rosetta.jpg";
+static NSString *imageFileName = @"mn.png";
 static CGFloat quality = 75.0f;
 static CGFloat alpha = 0.6f;
 static BOOL asyncConvert = YES;
@@ -30,12 +31,13 @@ static BOOL asyncConvert = YES;
 {
     [super viewDidLoad];
     
-    NSString *normalImg = [[NSBundle mainBundle] pathForResource:@"Rosetta" ofType:@"jpg"];
+    //NSString *normalImg = [[NSBundle mainBundle] pathForResource:@"Rosetta" ofType:@"jpg"];
+    NSString *normalImg = [[NSBundle mainBundle] pathForResource:@"mn" ofType:@"png"];
     UIImage *demoImage = [UIImage imageNamed:imageFileName];
     [normalView setImage:[demoImage imageByApplyingAlpha:alpha]];
     
     uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:normalImg error:nil] fileSize];
-    [normalLabel setText:[NSString stringWithFormat:@"JPG format file size: %.2f KB", (double)fileSize/1024]];
+    [normalLabel setText:[NSString stringWithFormat:@"%@ format file size: %.2f KB",[[normalImg pathExtension] uppercaseString] , (double)fileSize/1024]];
     
     [convertedView setImage:[UIImage imageNamed:@"default.png"]];
     [convertedLabel setText:@"Waiting..."];

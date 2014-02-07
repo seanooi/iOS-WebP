@@ -40,9 +40,6 @@ static void free_image_data(void *info, const void *data, size_t size)
     
     uint8_t *webPImageData = (uint8_t *)CFDataGetBytePtr(webPImageDatRef);
     
-    //NSLog(@"%s [WebPValidateConfig:config]: %i",strrchr(__FILE__, '/'), WebPValidateConfig(&configParam));
-    //NSLog(@"%s [WebPValidateConfig:WebPConfigNull]: %i",strrchr(__FILE__, '/'), WebPValidateConfig(&WebPConfigNull));
-    
     WebPConfig config;
     if (!WebPConfigPreset(&config, preset, quality)) {
         NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
@@ -135,34 +132,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     // Decode the WebP image data into a RGBA value array
     VP8StatusCode decodeStatus = WebPDecode([imgData bytes], [imgData length], &config);
     if (decodeStatus != VP8_STATUS_OK) {
-        NSString *errorString;
-        
-        switch (decodeStatus) {
-            case VP8_STATUS_OUT_OF_MEMORY:
-                errorString = @"OUT_OF_MEMORY";
-                break;
-            case VP8_STATUS_INVALID_PARAM:
-                errorString = @"INVALID_PARAM";
-                break;
-            case VP8_STATUS_BITSTREAM_ERROR:
-                errorString = @"BITSTREAM_ERROR";
-                break;
-            case VP8_STATUS_UNSUPPORTED_FEATURE:
-                errorString = @"UNSUPPORTED_FEATURE";
-                break;
-            case VP8_STATUS_SUSPENDED:
-                errorString = @"SUSPENDED";
-                break;
-            case VP8_STATUS_USER_ABORT:
-                errorString = @"USER_ABORT";
-                break;
-            case VP8_STATUS_NOT_ENOUGH_DATA:
-                errorString = @"NOT_ENOUGH_DATA";
-                break;
-            default:
-                errorString = @"UNEXPECTED_ERROR";
-                break;
-        }
+        NSString *errorString = [self statusForVP8Code:decodeStatus];
         
         NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
         [errorDetail setValue:errorString forKey:NSLocalizedDescriptionKey];
@@ -172,7 +142,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     }
     
     // Construct UIImage from the decoded RGBA value array
-    CGDataProviderRef provider = CGDataProviderCreateWithData(&config, config.output.u.RGBA.rgba, width  *height * 4, free_image_data);
+    CGDataProviderRef provider = CGDataProviderCreateWithData(&config, config.output.u.RGBA.rgba, config.options.scaled_width  * config.options.scaled_height * 4, free_image_data);
     
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault |kCGImageAlphaLast;
@@ -185,6 +155,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     CGImageRelease(imageRef);
     CGColorSpaceRelease(colorSpaceRef);
     CGDataProviderRelease(provider);
+    WebPFreeDecBuffer(&config.output);
     
     return result;
 }
@@ -265,6 +236,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 }
 
 #pragma mark - Utilities
+
 - (UIImage *)imageByApplyingAlpha:(CGFloat) alpha
 {
     NSAssert(alpha >= 0 && alpha <= 1, @"imageByApplyingAlpha:alpha alpha has to be [0, 1]");
@@ -358,4 +330,37 @@ static void free_image_data(void *info, const void *data, size_t size)
     return [array componentsJoinedByString:@"."];
 }
 
+#pragma mark - Error statuses
+
++ (NSString *)statusForVP8Code:(VP8StatusCode)code
+{
+    NSString *errorString;
+    switch (code) {
+        case VP8_STATUS_OUT_OF_MEMORY:
+            errorString = @"OUT_OF_MEMORY";
+            break;
+        case VP8_STATUS_INVALID_PARAM:
+            errorString = @"INVALID_PARAM";
+            break;
+        case VP8_STATUS_BITSTREAM_ERROR:
+            errorString = @"BITSTREAM_ERROR";
+            break;
+        case VP8_STATUS_UNSUPPORTED_FEATURE:
+            errorString = @"UNSUPPORTED_FEATURE";
+            break;
+        case VP8_STATUS_SUSPENDED:
+            errorString = @"SUSPENDED";
+            break;
+        case VP8_STATUS_USER_ABORT:
+            errorString = @"USER_ABORT";
+            break;
+        case VP8_STATUS_NOT_ENOUGH_DATA:
+            errorString = @"NOT_ENOUGH_DATA";
+            break;
+        default:
+            errorString = @"UNEXPECTED_ERROR";
+            break;
+    }
+    return errorString;
+}
 @end
