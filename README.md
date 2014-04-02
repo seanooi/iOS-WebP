@@ -44,7 +44,7 @@ Encoding and decoding of images are done in the background thread and results re
 [UIImage imageToWebP:[UIImage imageNamed:@"demo.jpg"] quality:quality alpha:alpha preset:WEBP_PRESET_DEFAULT completionBlock:^(NSData *result) {
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
   NSString *webPPath = [paths[0] stringByAppendingPathComponent:@"image.webp"];
-  if (![webPData writeToFile:webPPath atomically:YES]) {
+  if (![result writeToFile:webPPath atomically:YES]) {
     NSLog(@"Failed to save file");
   }
 } failureBlock:^(NSError *error) {
