@@ -23,8 +23,6 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 + (NSData *)convertToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset error:(NSError **)error
 {
-    NSLog(@"WebP Encoder Version: %@", [self version:WebPGetEncoderVersion()]);
-    
     if (alpha < 1) {
         image = [self webPImage:image withAlpha:alpha];
     }
@@ -93,18 +91,20 @@ static void free_image_data(void *info, const void *data, size_t size)
     return webPFinalData;
 }
 
-+ (UIImage *)convertFromWebP:(NSString *)filePath error:(NSError **)error
++ (UIImage *)imageFromWebPWithPath:(NSString *)filePath error:(NSError **)error
 {
-    NSLog(@"WebP Decoder Version: %@", [self version:WebPGetDecoderVersion()]);
-    
     // If passed `filepath` is invalid, return nil to caller and log error in console
-    NSError *dataError = nil;;
+    NSError *dataError = nil;
     NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&dataError];
-    if(dataError != nil) {
-        NSLog(@"imageFromWebP: error: %@", dataError.localizedDescription);
+    if (dataError != nil) {
+        *error = dataError;
         return nil;
     }
-    
+    return [UIImage imageFromWebP:imgData error:error];
+}
+
++ (UIImage *)imageFromWebP:(NSData *)imgData error:(NSError **)error
+{
     // `WebPGetInfo` weill return image width and height
     int width = 0, height = 0;
     if(!WebPGetInfo([imgData bytes], [imgData length], &width, &height)) {
@@ -161,18 +161,22 @@ static void free_image_data(void *info, const void *data, size_t size)
 }
 
 #pragma mark - Synchronous methods
-+ (UIImage *)imageFromWebP:(NSString *)filePath
++ (UIImage *)imageFromWebPWithPath:(NSString *)filePath
 {
-    NSAssert(filePath != nil, @"imageFromWebP:filePath filePath cannot be nil");
-    
-    return [self convertFromWebP:filePath error:nil];
+    NSAssert(filePath != nil, @"imageFromWebPWithPath:filePath filePath cannot be nil");
+    return [self imageFromWebPWithPath:filePath error:nil];
+}
+
++ (UIImage *)imageFromWebP:(NSData *)imgData
+{
+    NSAssert(imgData != nil, @"imageFromWebP:imgData filePath cannot be nil");
+    return [self imageFromWebP:imgData error:nil];
 }
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
 {
     NSAssert(image != nil, @"imageToWebP:quality: image cannot be nil");
     NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality: quality has to be [0, 100]");
-    
     return [self convertToWebP:image quality:quality alpha:1 preset:WEBP_PRESET_DEFAULT error:nil];
 }
 
@@ -188,7 +192,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_async(fromWebPQueue, ^{
         
         NSError *error = nil;
-        UIImage *webPImage = [self convertFromWebP:filePath error:&error];
+        UIImage *webPImage = [self imageFromWebPWithPath:filePath error:&error];
         
         // Return results to caller on main thread in completion block is `webPImage` != nil
         // Else return in failure block
