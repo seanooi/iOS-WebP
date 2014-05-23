@@ -91,7 +91,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     return webPFinalData;
 }
 
-+ (UIImage *)imageFromWebPWithPath:(NSString *)filePath error:(NSError **)error
++ (UIImage *)imageFromWebP:(NSString *)filePath error:(NSError **)error
 {
     // If passed `filepath` is invalid, return nil to caller and log error in console
     NSError *dataError = nil;
@@ -100,10 +100,10 @@ static void free_image_data(void *info, const void *data, size_t size)
         *error = dataError;
         return nil;
     }
-    return [UIImage imageFromWebP:imgData error:error];
+    return [UIImage imageFromWebPData:imgData error:error];
 }
 
-+ (UIImage *)imageFromWebP:(NSData *)imgData error:(NSError **)error
++ (UIImage *)imageFromWebPData:(NSData *)imgData error:(NSError **)error
 {
     // `WebPGetInfo` weill return image width and height
     int width = 0, height = 0;
@@ -161,16 +161,16 @@ static void free_image_data(void *info, const void *data, size_t size)
 }
 
 #pragma mark - Synchronous methods
-+ (UIImage *)imageFromWebPWithPath:(NSString *)filePath
++ (UIImage *)imageFromWebP:(NSString *)filePath
 {
     NSAssert(filePath != nil, @"imageFromWebPWithPath:filePath filePath cannot be nil");
-    return [self imageFromWebPWithPath:filePath error:nil];
+    return [self imageFromWebP:filePath error:nil];
 }
 
-+ (UIImage *)imageFromWebP:(NSData *)imgData
++ (UIImage *)imageFromWebPData:(NSData *)imgData
 {
     NSAssert(imgData != nil, @"imageFromWebP:imgData filePath cannot be nil");
-    return [self imageFromWebP:imgData error:nil];
+    return [self imageFromWebPData:imgData error:nil];
 }
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
@@ -192,7 +192,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_async(fromWebPQueue, ^{
         
         NSError *error = nil;
-        UIImage *webPImage = [self imageFromWebPWithPath:filePath error:&error];
+        UIImage *webPImage = [self imageFromWebP:filePath error:&error];
         
         // Return results to caller on main thread in completion block is `webPImage` != nil
         // Else return in failure block

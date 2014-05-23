@@ -12,8 +12,8 @@
 
 @interface UIImage (WebP)
 
-+ (UIImage *)imageFromWebP:(NSData *)imgData;
-+ (UIImage *)imageFromWebPWithPath:(NSString *)filePath;
++ (UIImage *)imageFromWebPData:(NSData *)imgData;
++ (UIImage *)imageFromWebP:(NSString *)filePath;
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality;
 + (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset
