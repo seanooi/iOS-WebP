@@ -65,10 +65,10 @@ static BOOL asyncConvert = YES;
         [convertedLabel setText:[NSString stringWithFormat:@"WEBP format file size: %.2f KB at %.f%% quality", (double)fileSize/1024, quality]];
         
         if (!asyncConvert) {
-            [convertedView setImage:[UIImage imageFromWebP:webPPath]];
+            [convertedView setImage:[UIImage imageWithWebP:webPPath]];
         }
         else {
-            [UIImage imageFromWebP:webPPath completionBlock:^(UIImage *result) {
+            [UIImage imageWithWebP:webPPath completionBlock:^(UIImage *result) {
                 [convertedView setImage:result];
             }failureBlock:^(NSError *error) {
                 NSLog(@"%@", error.localizedDescription);

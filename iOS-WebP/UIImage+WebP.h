@@ -12,15 +12,15 @@
 
 @interface UIImage (WebP)
 
-+ (UIImage *)imageFromWebPData:(NSData *)imgData;
-+ (UIImage *)imageFromWebP:(NSString *)filePath;
++ (UIImage *)imageWithWebPData:(NSData *)imgData;
++ (UIImage *)imageWithWebP:(NSString *)filePath;
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality;
 + (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset
     completionBlock:(void (^)(NSData *result))completionBlock
        failureBlock:(void (^)(NSError *error))failureBlock;
 
-+ (void)imageFromWebP:(NSString *)filePath
++ (void)imageWithWebP:(NSString *)filePath
       completionBlock:(void (^)(UIImage *result))completionBlock
          failureBlock:(void (^)(NSError *error))failureBlock;
 

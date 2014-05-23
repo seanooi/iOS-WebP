@@ -27,7 +27,7 @@ There are 3 methods in `iOS-WebP`, converting images __to__ WebP format, convert
     completionBlock:(void (^)(NSData *result))completionBlock
        failureBlock:(void (^)(NSError *error))failureBlock;
 
-+ (void)imageFromWebP:(NSString *)filePath
++ (void)imageWithWebP:(NSString *)filePath
       completionBlock:(void (^)(UIImage *result))completionBlock
          failureBlock:(void (^)(NSError *error))failureBlock;
 
@@ -64,7 +64,7 @@ Encoding and decoding of images are done in the background thread and results re
 #### Converting From WebP
 
 ```objc
-[UIImage imageFromWebP:@"/path/to/file" completionBlock:^(UIImage *result) {
+[UIImage imageWithWebP:@"/path/to/file" completionBlock:^(UIImage *result) {
   UIImageView *myImageView = [[UIImageView alloc] initWithImage:result];
 }failureBlock:^(NSError *error) {
   NSLog(@"%@", error.localizedDescription);
