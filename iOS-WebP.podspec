@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage     		= 'https://github.com/seanooi/iOS-WebP'
   s.summary     		= 'WebP image decoder and encoder for iOS'
   s.author       		= 'Sean Ooi'
-  s.source       		= {:git => 'https://github.com/escherba/iOS-WebP.git', :tag => '0.3.1'}
+  s.source       		= {:git => 'https://github.com/escherba/iOS-WebP.git', :tag => '0.4.0'}
   s.source_files		= 'iOS-WebP/*.{h,m}'
   s.vendored_framework	= 'iOS-WebP/WebP.framework'
   s.requires_arc		= true
