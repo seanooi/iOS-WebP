@@ -21,17 +21,6 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 #pragma mark - Private methods
 
-/*
-+ (NSData *)convertToWebP:(UIImage *)image
-                  quality:(CGFloat)quality
-                    alpha:(CGFloat)alpha
-                   preset:(WebPPreset)preset
-                    error:(NSError **)error
-{
-    return [self convertToWebP:image quality:quality alpha:alpha preset:preset setConfig:nil error:error];
-}
- */
-
 + (NSData *)convertToWebP:(UIImage *)image
                   quality:(CGFloat)quality
                     alpha:(CGFloat)alpha
