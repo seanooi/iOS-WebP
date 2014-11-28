@@ -18,6 +18,14 @@
 + (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset
     completionBlock:(void (^)(NSData *result))completionBlock
        failureBlock:(void (^)(NSError *error))failureBlock;
+       
++ (void)imageToWebP:(UIImage *)image
+            quality:(CGFloat)quality
+              alpha:(CGFloat)alpha
+             preset:(WebPPreset)preset
+             config:(void (^)(WebPConfig *config))configBlock
+    completionBlock:(void (^)(NSData *result))completionBlock
+       failureBlock:(void (^)(NSError *error))failureBlock;
 
 + (void)imageFromWebP:(NSString *)filePath
       completionBlock:(void (^)(UIImage *result))completionBlock
