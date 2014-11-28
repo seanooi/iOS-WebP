@@ -61,6 +61,36 @@ Encoding and decoding of images are done in the background thread and results re
 * `WEBP_PRESET_ICON`    _(small-sized colorful images)_
 * `WEBP_PRESET_TEXT`    _(text-like)_
 
+##### Config block
+
+If you need to fine tune the performance of the encoding algorithm you can specify overrides to the preset in a config block.
+
+```objc
+// quality value is [0, 100]
+// alpha value is [0, 1]
+[UIImage imageToWebP:[UIImage imageNamed:@"demo.jpg"] quality:quality alpha:alpha 
+ preset:WEBP_PRESET_DEFAULT 
+ config:^(WebPConfig *config) {
+    config->sns_strength = 50.0f;
+    config->filter_strength = 0.0f;
+    config->method = 2;
+    config->preprocessing = 0;
+    config->filter_sharpness = 0;
+    config->thread_level = 1;
+ }
+ completionBlock:^(NSData *result) {
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+  NSString *webPPath = [paths[0] stringByAppendingPathComponent:@"image.webp"];
+  if (![result writeToFile:webPPath atomically:YES]) {
+    NSLog(@"Failed to save file");
+  }
+} failureBlock:^(NSError *error) {
+  NSLog(@"%@", error.localizedDescription);
+}];
+```
+
+All possible config values can be found in encode.h in the WebPConfig stuct.
+
 #### Converting From WebP
 
 ```objc
