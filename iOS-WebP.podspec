@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
   s.author       		= 'Sean Ooi'
   s.source       		= {:git => 'https://github.com/seanooi/iOS-WebP.git', :tag => '0.2'}
   s.source_files		= 'iOS-WebP/*.{h,m}'
-  s.vendored_framework	= 'iOS-WebP/WebP.framework'
   s.requires_arc		= true
+  s.dependency      'libwebp', '~> 0.4.2'
 end
