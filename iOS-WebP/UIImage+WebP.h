@@ -24,7 +24,7 @@
             quality:(CGFloat)quality
               alpha:(CGFloat)alpha
              preset:(WebPPreset)preset
-             config:(void (^)(WebPConfig *config))configBlock
+        configBlock:(void (^)(WebPConfig *config))configBlock
     completionBlock:(void (^)(NSData *result))completionBlock
        failureBlock:(void (^)(NSError *error))failureBlock;
 

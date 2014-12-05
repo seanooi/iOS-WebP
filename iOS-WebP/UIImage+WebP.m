@@ -25,7 +25,7 @@ static void free_image_data(void *info, const void *data, size_t size)
                   quality:(CGFloat)quality
                     alpha:(CGFloat)alpha
                    preset:(WebPPreset)preset
-                   config:(void (^)(WebPConfig *))configBlock
+              configBlock:(void (^)(WebPConfig *))configBlock
                     error:(NSError **)error
 {
     if (alpha < 1) {
@@ -186,7 +186,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 {
     NSParameterAssert(image != nil);
     NSParameterAssert(quality >= 0.0f && quality <= 100.0f);
-    return [self convertToWebP:image quality:quality alpha:1.0f preset:WEBP_PRESET_DEFAULT config:nil error:nil];
+    return [self convertToWebP:image quality:quality alpha:1.0f preset:WEBP_PRESET_DEFAULT configBlock:nil error:nil];
 }
 
 #pragma mark - Asynchronous methods
@@ -229,7 +229,7 @@ static void free_image_data(void *info, const void *data, size_t size)
               quality:quality
                 alpha:alpha
                preset:preset
-               config:nil
+          configBlock:nil
       completionBlock:completionBlock
          failureBlock:failureBlock];
 }
@@ -238,7 +238,7 @@ static void free_image_data(void *info, const void *data, size_t size)
             quality:(CGFloat)quality
               alpha:(CGFloat)alpha
              preset:(WebPPreset)preset
-             config:(void (^)(WebPConfig *))configBlock
+        configBlock:(void (^)(WebPConfig *))configBlock
     completionBlock:(void (^)(NSData *result))completionBlock
        failureBlock:(void (^)(NSError *error))failureBlock
 {
@@ -257,7 +257,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_async(toWebPQueue, ^{
         
         NSError *error = nil;
-        NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha preset:preset config:configBlock error:&error];
+        NSData *webPFinalData = [self convertToWebP:image quality:quality alpha:alpha preset:preset configBlock:configBlock error:&error];
         
         // Return results to caller on main thread in completion block is `webPFinalData` != nil
         // Else return in failure block
