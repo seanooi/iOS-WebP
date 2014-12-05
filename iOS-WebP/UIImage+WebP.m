@@ -28,8 +28,6 @@ static void free_image_data(void *info, const void *data, size_t size)
                    config:(void (^)(WebPConfig *))configBlock
                     error:(NSError **)error
 {
-    NSLog(@"WebP Encoder Version: %@", [self version:WebPGetEncoderVersion()]);
-    
     if (alpha < 1) {
         image = [self webPImage:image withAlpha:alpha];
     }
@@ -102,18 +100,20 @@ static void free_image_data(void *info, const void *data, size_t size)
     return webPFinalData;
 }
 
-+ (UIImage *)convertFromWebP:(NSString *)filePath error:(NSError **)error
++ (UIImage *)imageWithWebP:(NSString *)filePath error:(NSError **)error
 {
-    NSLog(@"WebP Decoder Version: %@", [self version:WebPGetDecoderVersion()]);
-    
     // If passed `filepath` is invalid, return nil to caller and log error in console
-    NSError *dataError = nil;;
+    NSError *dataError = nil;
     NSData *imgData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&dataError];
-    if(dataError != nil) {
-        NSLog(@"imageFromWebP: error: %@", dataError.localizedDescription);
+    if (dataError != nil) {
+        *error = dataError;
         return nil;
     }
-    
+    return [UIImage imageWithWebPData:imgData error:error];
+}
+
++ (UIImage *)imageWithWebPData:(NSData *)imgData error:(NSError **)error
+{
     // `WebPGetInfo` weill return image width and height
     int width = 0, height = 0;
     if(!WebPGetInfo([imgData bytes], [imgData length], &width, &height)) {
@@ -170,34 +170,38 @@ static void free_image_data(void *info, const void *data, size_t size)
 }
 
 #pragma mark - Synchronous methods
-+ (UIImage *)imageFromWebP:(NSString *)filePath
++ (UIImage *)imageWithWebP:(NSString *)filePath
 {
-    NSAssert(filePath != nil, @"imageFromWebP:filePath filePath cannot be nil");
-    
-    return [self convertFromWebP:filePath error:nil];
+    NSParameterAssert(filePath != nil);
+    return [self imageWithWebP:filePath error:nil];
+}
+
++ (UIImage *)imageWithWebPData:(NSData *)imgData
+{
+    NSParameterAssert(imgData != nil);
+    return [self imageWithWebPData:imgData error:nil];
 }
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
 {
-    NSAssert(image != nil, @"imageToWebP:quality: image cannot be nil");
-    NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality: quality has to be [0, 100]");
-    
-    return [self convertToWebP:image quality:quality alpha:1 preset:WEBP_PRESET_DEFAULT config:nil error:nil];
+    NSParameterAssert(image != nil);
+    NSParameterAssert(quality >= 0.0f && quality <= 100.0f);
+    return [self convertToWebP:image quality:quality alpha:1.0f preset:WEBP_PRESET_DEFAULT config:nil error:nil];
 }
 
 #pragma mark - Asynchronous methods
-+ (void)imageFromWebP:(NSString *)filePath completionBlock:(void (^)(UIImage *result))completionBlock failureBlock:(void (^)(NSError *error))failureBlock
++ (void)imageWithWebP:(NSString *)filePath completionBlock:(void (^)(UIImage *result))completionBlock failureBlock:(void (^)(NSError *error))failureBlock
 {
-    NSAssert(filePath != nil, @"imageFromWebP:filePath:completionBlock:failureBlock filePath cannot be nil");
-    NSAssert(completionBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock completionBlock block cannot be nil");
-    NSAssert(failureBlock != nil, @"imageFromWebP:filePath:completionBlock:failureBlock failureBlock block cannot be nil");
+    NSParameterAssert(filePath != nil);
+    NSParameterAssert(completionBlock != nil);
+    NSParameterAssert(failureBlock != nil);
     
     // Create dispatch_queue_t for decoding WebP concurrently
     dispatch_queue_t fromWebPQueue = dispatch_queue_create("com.seanooi.ioswebp.fromwebp", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(fromWebPQueue, ^{
         
         NSError *error = nil;
-        UIImage *webPImage = [self convertFromWebP:filePath error:&error];
+        UIImage *webPImage = [self imageWithWebP:filePath error:&error];
         
         // Return results to caller on main thread in completion block is `webPImage` != nil
         // Else return in failure block
@@ -243,6 +247,10 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(alpha >= 0 && alpha <= 1, @"imageToWebP:quality:alpha:completionBlock:failureBlock alpha has to be [0, 1]");
     NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock completionBlock cannot be nil");
     NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock failureBlock block cannot be nil");
+    NSParameterAssert(image != nil);
+    NSParameterAssert(quality >= 0.0f && quality <= 100.0f);
+    NSParameterAssert(alpha >= 0.0f && alpha <= 1.0f);
+    NSParameterAssert(completionBlock != nil);
     
     // Create dispatch_queue_t for encoding WebP concurrently
     dispatch_queue_t toWebPQueue = dispatch_queue_create("com.seanooi.ioswebp.towebp", DISPATCH_QUEUE_CONCURRENT);
@@ -270,7 +278,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 
 - (UIImage *)imageByApplyingAlpha:(CGFloat) alpha
 {
-    NSAssert(alpha >= 0 && alpha <= 1, @"imageByApplyingAlpha:alpha alpha has to be [0, 1]");
+    NSParameterAssert(alpha >= 0.0f && alpha <= 1.0f);
     
     if (alpha < 1) {
         
@@ -303,7 +311,8 @@ static void free_image_data(void *info, const void *data, size_t size)
 + (UIImage *)webPImage:(UIImage *)image withAlpha:(CGFloat)alpha
 {
     // CGImageAlphaInfo of images with alpha are kCGImageAlphaPremultipliedFirst
-    // Convert to kCGImageAlphaPremultipliedLast to avoid gray-ish background when encoding alpha images to WebP format
+    // Convert to kCGImageAlphaPremultipliedLast to avoid gray-ish background
+    // when encoding alpha images to WebP format
     
     CGImageRef imageRef = image.CGImage;
     NSUInteger width = CGImageGetWidth(imageRef);

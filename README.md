@@ -10,7 +10,7 @@ Google's WebP image format offers better compression compared to PNG or JPEG, al
 
 ###The CocoaPods Way
 ```ruby
-pod 'iOS-WebP', '0.3'
+pod 'iOS-WebP', '0.3.1'
 ```
 
 ###The Manual Way
@@ -27,7 +27,7 @@ There are 3 methods in `iOS-WebP`, converting images __to__ WebP format, convert
     completionBlock:(void (^)(NSData *result))completionBlock
        failureBlock:(void (^)(NSError *error))failureBlock;
 
-+ (void)imageFromWebP:(NSString *)filePath
++ (void)imageWithWebP:(NSString *)filePath
       completionBlock:(void (^)(UIImage *result))completionBlock
          failureBlock:(void (^)(NSError *error))failureBlock;
 
@@ -94,7 +94,7 @@ All possible config values can be found in encode.h in the WebPConfig stuct.
 #### Converting From WebP
 
 ```objc
-[UIImage imageFromWebP:@"/path/to/file" completionBlock:^(UIImage *result) {
+[UIImage imageWithWebP:@"/path/to/file" completionBlock:^(UIImage *result) {
   UIImageView *myImageView = [[UIImageView alloc] initWithImage:result];
 }failureBlock:^(NSError *error) {
   NSLog(@"%@", error.localizedDescription);
