@@ -246,11 +246,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     NSAssert(quality >= 0 && quality <= 100, @"imageToWebP:quality:alpha:completionBlock:failureBlock quality has to be [0, 100]");
     NSAssert(alpha >= 0 && alpha <= 1, @"imageToWebP:quality:alpha:completionBlock:failureBlock alpha has to be [0, 1]");
     NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock completionBlock cannot be nil");
-    NSAssert(completionBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock failureBlock block cannot be nil");
-    NSParameterAssert(image != nil);
-    NSParameterAssert(quality >= 0.0f && quality <= 100.0f);
-    NSParameterAssert(alpha >= 0.0f && alpha <= 1.0f);
-    NSParameterAssert(completionBlock != nil);
+    NSAssert(failureBlock != nil, @"imageToWebP:quality:alpha:completionBlock:failureBlock failureBlock block cannot be nil");
     
     // Create dispatch_queue_t for encoding WebP concurrently
     dispatch_queue_t toWebPQueue = dispatch_queue_create("com.seanooi.ioswebp.towebp", DISPATCH_QUEUE_CONCURRENT);
