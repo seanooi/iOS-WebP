@@ -12,17 +12,31 @@
 
 @interface UIImage (WebP)
 
-+ (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality __attribute((deprecated("use imageToWebP:quality:alpha:completionBlock:failureBlock: instead")));
-+ (UIImage *)imageFromWebP:(NSString *)filePath __attribute((deprecated("use imageFromWebP:filePath:completionBlock:failureBlock: instead")));
++ (UIImage*)imageWithWebPData:(NSData*)imgData;
 
-+ (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset
-    completionBlock:(void (^)(NSData *result))completionBlock
-       failureBlock:(void (^)(NSError *error))failureBlock;
++ (UIImage*)imageWithWebP:(NSString*)filePath;
 
-+ (void)imageFromWebP:(NSString *)filePath
-      completionBlock:(void (^)(UIImage *result))completionBlock
-         failureBlock:(void (^)(NSError *error))failureBlock;
++ (NSData*)imageToWebP:(UIImage*)image quality:(CGFloat)quality;
 
-- (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;
++ (void)imageToWebP:(UIImage*)image
+            quality:(CGFloat)quality
+              alpha:(CGFloat)alpha
+             preset:(WebPPreset)preset
+    completionBlock:(void (^)(NSData* result))completionBlock
+       failureBlock:(void (^)(NSError* error))failureBlock;
+
++ (void)imageToWebP:(UIImage*)image
+            quality:(CGFloat)quality
+              alpha:(CGFloat)alpha
+             preset:(WebPPreset)preset
+        configBlock:(void (^)(WebPConfig* config))configBlock
+    completionBlock:(void (^)(NSData* result))completionBlock
+       failureBlock:(void (^)(NSError* error))failureBlock;
+
++ (void)imageWithWebP:(NSString*)filePath
+      completionBlock:(void (^)(UIImage* result))completionBlock
+         failureBlock:(void (^)(NSError* error))failureBlock;
+
+- (UIImage*)imageByApplyingAlpha:(CGFloat)alpha;
 
 @end
