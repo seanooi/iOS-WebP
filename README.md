@@ -112,4 +112,4 @@ Credits
 ========
 * Based off [WebP-iOS-example](https://github.com/carsonmcdonald/WebP-iOS-example "WebP-iOS-example") by Carson McDonald
 * `imageByApplyingAlpha:alpha` function contributed by [shmidt](https://github.com/shmidt)
-* `WebPConfig` block and `WebPPreset` options contributed by [weibel](https://github.com/weibel) and [escherba](https://github.com/escherba)
+* `WebPConfig` block contributed by [weibel](https://github.com/weibel) and [escherba](https://github.com/escherba)
