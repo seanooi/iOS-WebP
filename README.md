@@ -10,7 +10,7 @@ Google's WebP image format offers better compression compared to PNG or JPEG, al
 
 ###The CocoaPods Way
 ```ruby
-pod 'iOS-WebP', '0.3.1'
+pod 'iOS-WebP', '0.4'
 ```
 
 ###The Manual Way
@@ -108,7 +108,8 @@ All possible config values can be found in encode.h in the WebPConfig stuct.
 UIImage *transparencyImage = [[UIImage imageNamed:image.jpg] imageByApplyingAlpha:0.5];
 ```
 
-Credit
+Credits
 ========
 * Based off [WebP-iOS-example](https://github.com/carsonmcdonald/WebP-iOS-example "WebP-iOS-example") by Carson McDonald
 * `imageByApplyingAlpha:alpha` function contributed by [shmidt](https://github.com/shmidt)
+* `WebPConfig` block and `WebPPreset` options contributed by [weibel](https://github.com/weibel) and [escherba](https://github.com/escherba)
