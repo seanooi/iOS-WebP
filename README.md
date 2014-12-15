@@ -70,7 +70,7 @@ If you need to fine tune the performance of the encoding algorithm you can speci
 // alpha value is [0, 1]
 [UIImage imageToWebP:[UIImage imageNamed:@"demo.jpg"] quality:quality alpha:alpha 
  preset:WEBP_PRESET_DEFAULT 
- config:^(WebPConfig *config) {
+ configBlock:^(WebPConfig *config) {
     config->sns_strength = 50.0f;
     config->filter_strength = 0.0f;
     config->method = 2;
