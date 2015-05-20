@@ -11,10 +11,12 @@
 // This gets called when the UIImage gets collected and frees the underlying image.
 static void free_image_data(void *info, const void *data, size_t size)
 {
-    if(info != NULL)
-        WebPFreeDecBuffer(&(((WebPDecoderConfig *)info)->output));
-    else
-        free((void *)data);
+    if(info != NULL) {
+        WebPFreeDecBuffer(&(((WebPDecoderConfig *) info)->output));
+        free(info);
+    } else {
+        free((void *) data);
+    }
 }
 
 @implementation UIImage (WebP)
@@ -124,8 +126,8 @@ static void free_image_data(void *info, const void *data, size_t size)
         return nil;
     }
     
-    WebPDecoderConfig config;
-    if(!WebPInitDecoderConfig(&config)) {
+    WebPDecoderConfig * config = malloc(sizeof(WebPDecoderConfig));
+    if(!WebPInitDecoderConfig(config)) {
         NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
         [errorDetail setValue:@"Failed to initialize structure. Version mismatch." forKey:NSLocalizedDescriptionKey];
         if(error != NULL)
@@ -133,13 +135,13 @@ static void free_image_data(void *info, const void *data, size_t size)
         return nil;
     }
     
-    config.options.no_fancy_upsampling = 1;
-    config.options.bypass_filtering = 1;
-    config.options.use_threads = 1;
-    config.output.colorspace = MODE_RGBA;
+    config->options.no_fancy_upsampling = 1;
+    config->options.bypass_filtering = 1;
+    config->options.use_threads = 1;
+    config->output.colorspace = MODE_RGBA;
     
     // Decode the WebP image data into a RGBA value array
-    VP8StatusCode decodeStatus = WebPDecode([imgData bytes], [imgData length], &config);
+    VP8StatusCode decodeStatus = WebPDecode([imgData bytes], [imgData length], config);
     if (decodeStatus != VP8_STATUS_OK) {
         NSString *errorString = [self statusForVP8Code:decodeStatus];
         
@@ -152,7 +154,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     
     // Construct UIImage from the decoded RGBA value array
     uint8_t *data = WebPDecodeRGBA([imgData bytes], [imgData length], &width, &height);
-    CGDataProviderRef provider = CGDataProviderCreateWithData(&config, data, config.options.scaled_width  * config.options.scaled_height * 4, free_image_data);
+    CGDataProviderRef provider = CGDataProviderCreateWithData(config, data, config->options.scaled_width  * config->options.scaled_height * 4, free_image_data);
     
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault |kCGImageAlphaLast;
@@ -165,7 +167,6 @@ static void free_image_data(void *info, const void *data, size_t size)
     CGImageRelease(imageRef);
     CGColorSpaceRelease(colorSpaceRef);
     CGDataProviderRelease(provider);
-    WebPFreeDecBuffer(&config.output);
     
     return result;
 }
