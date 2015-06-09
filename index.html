@@ -1,35 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
+    <meta charset="UTF-8">
     <title>iOS-WebP by seanooi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>iOS-WebP</h1>
-        <h2>Google&#39;s WebP image format decoder and encoder for iOS</h2>
-        <a href="https://github.com/seanooi/iOS-WebP" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+    <section class="page-header">
+      <h1 class="project-name">iOS-WebP</h1>
+      <h2 class="project-tagline">Google&#39;s WebP image format decoder and encoder for iOS</h2>
+      <a href="https://github.com/seanooi/iOS-WebP" class="btn">View on GitHub</a>
+      <a href="https://github.com/seanooi/iOS-WebP/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/seanooi/iOS-WebP/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
-<a name="ios-webp" class="anchor" href="#ios-webp"><span class="octicon octicon-link"></span></a>iOS-WebP</h1>
+    <section class="main-content">
+      <h1>
+<a id="ios-webp" class="anchor" href="#ios-webp" aria-hidden="true"><span class="octicon octicon-link"></span></a>iOS-WebP</h1>
 
 <p>Most apps nowadays enhance user experience with the use of images, and one of the issues I've noticed with that is the amount of time it takes to load an image. (<em>Not everyone has the luxury of a fast connection</em>)</p>
 
@@ -38,16 +29,15 @@
 <p><img src="http://i.imgur.com/tUCyYhD.png" alt="alt demo" title="Demo Screenshot"></p>
 
 <h1>
-<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h1>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h1>
 
 <h3>
-<a name="the-cocoapods-way" class="anchor" href="#the-cocoapods-way"><span class="octicon octicon-link"></span></a>The CocoaPods Way</h3>
+<a id="the-cocoapods-way" class="anchor" href="#the-cocoapods-way" aria-hidden="true"><span class="octicon octicon-link"></span></a>The CocoaPods Way</h3>
 
-<div class="highlight highlight-ruby"><pre><span class="n">pod</span> <span class="s1">'iOS-WebP'</span><span class="p">,</span> <span class="s1">'0.3'</span>
-</pre></div>
+<div class="highlight highlight-ruby"><pre>pod <span class="pl-s"><span class="pl-pds">'</span>iOS-WebP<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>0.4<span class="pl-pds">'</span></span></pre></div>
 
 <h3>
-<a name="the-manual-way" class="anchor" href="#the-manual-way"><span class="octicon octicon-link"></span></a>The Manual Way</h3>
+<a id="the-manual-way" class="anchor" href="#the-manual-way" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Manual Way</h3>
 
 <p>Include the 3 files inside the <code>iOS-WebP</code> folder into your project:</p>
 
@@ -55,43 +45,44 @@
 <li><code>UIImage+WebP.h</code></li>
 <li><code>UIImage+WebP.m</code></li>
 <li><code>WebP.framework</code></li>
-</ul><h1>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+</ul>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
 
 <p>Don't forget to <code>#import "UIImage+WebP.h"</code> or <code>#import &lt;UIImage+WebP.h&gt;</code> if you're using cocoapods.
 There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</strong> WebP format, converting images <strong>from</strong> WebP format, and setting an image's transparency.</p>
 
-<div class="highlight highlight-objc"><pre><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">imageToWebP:</span><span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">quality:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">quality</span> <span class="nf">alpha:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">alpha</span> <span class="nf">preset:</span><span class="p">(</span><span class="n">WebPPreset</span><span class="p">)</span><span class="nv">preset</span>
-    <span class="nl">completionBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSData</span> <span class="o">*</span><span class="n">result</span><span class="p">))</span><span class="nv">completionBlock</span>
-       <span class="nl">failureBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">))</span><span class="nv">failureBlock</span><span class="p">;</span>
+<div class="highlight highlight-objc"><pre>+ (<span class="pl-k">void</span>)imageToWebP:(UIImage *)image quality:(<span class="pl-c1">CGFloat</span>)quality alpha:(<span class="pl-c1">CGFloat</span>)alpha preset:(WebPPreset)preset
+    completionBlock:(<span class="pl-k">void</span> (^)(<span class="pl-c1">NSData</span> *result))completionBlock
+       failureBlock:(<span class="pl-k">void</span> (^)(<span class="pl-c1">NSError</span> *error))failureBlock;
 
-<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">imageFromWebP:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">filePath</span>
-      <span class="nl">completionBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">UIImage</span> <span class="o">*</span><span class="n">result</span><span class="p">))</span><span class="nv">completionBlock</span>
-         <span class="nl">failureBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">))</span><span class="nv">failureBlock</span><span class="p">;</span>
++ (<span class="pl-k">void</span>)imageWithWebP:(<span class="pl-c1">NSString</span> *)filePath
+      completionBlock:(<span class="pl-k">void</span> (^)(UIImage *result))completionBlock
+         failureBlock:(<span class="pl-k">void</span> (^)(<span class="pl-c1">NSError</span> *error))failureBlock;
 
-<span class="k">-</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageByApplyingAlpha:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">alpha</span><span class="p">;</span>
-</pre></div>
+- (UIImage *)imageByApplyingAlpha:(<span class="pl-c1">CGFloat</span>)alpha;</pre></div>
 
 <p>Encoding and decoding of images are done in the background thread and results returned in the completion block on the main thread so as not to lock the main thread, allowing the UI to be updated as needed.</p>
 
 <h4>
-<a name="converting-to-webp" class="anchor" href="#converting-to-webp"><span class="octicon octicon-link"></span></a>Converting To WebP</h4>
+<a id="converting-to-webp" class="anchor" href="#converting-to-webp" aria-hidden="true"><span class="octicon octicon-link"></span></a>Converting To WebP</h4>
 
-<div class="highlight highlight-objc"><pre><span class="c1">// quality value is [0, 100]</span>
-<span class="c1">// alpha value is [0, 1]</span>
-<span class="p">[</span><span class="n">UIImage</span> <span class="n">imageToWebP</span><span class="o">:</span><span class="p">[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="s">@"demo.jpg"</span><span class="p">]</span> <span class="n">quality</span><span class="o">:</span><span class="n">quality</span> <span class="n">alpha</span><span class="o">:</span><span class="n">alpha</span> <span class="n">preset</span><span class="o">:</span><span class="n">WEBP_PRESET_DEFAULT</span> <span class="n">completionBlock</span><span class="o">:^</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="n">result</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">NSArray</span> <span class="o">*</span><span class="n">paths</span> <span class="o">=</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="n">NSDocumentDirectory</span><span class="p">,</span> <span class="n">NSUserDomainMask</span><span class="p">,</span> <span class="nb">YES</span><span class="p">);</span>
-  <span class="n">NSString</span> <span class="o">*</span><span class="n">webPPath</span> <span class="o">=</span> <span class="p">[</span><span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">stringByAppendingPathComponent</span><span class="o">:</span><span class="s">@"image.webp"</span><span class="p">];</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">webPData</span> <span class="n">writeToFile</span><span class="o">:</span><span class="n">webPPath</span> <span class="n">atomically</span><span class="o">:</span><span class="nb">YES</span><span class="p">])</span> <span class="p">{</span>
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Failed to save file"</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span> <span class="n">failureBlock</span><span class="o">:^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">);</span>
-<span class="p">}];</span>
-</pre></div>
+<div class="highlight highlight-objc"><pre><span class="pl-c">// quality value is [0, 100]</span>
+<span class="pl-c">// alpha value is [0, 1]</span>
+[UIImage <span class="pl-c1">imageToWebP:</span>[UIImage <span class="pl-c1">imageNamed:</span><span class="pl-s"><span class="pl-pds">@"</span>demo.jpg<span class="pl-pds">"</span></span>] <span class="pl-c1">quality:</span>quality <span class="pl-c1">alpha:</span>alpha <span class="pl-c1">preset:</span>WEBP_PRESET_DEFAULT <span class="pl-c1">completionBlock:</span>^(<span class="pl-c1">NSData</span> *result) {
+  <span class="pl-c1">NSArray</span> *paths = <span class="pl-c1">NSSearchPathForDirectoriesInDomains</span>(NSDocumentDirectory, NSUserDomainMask, <span class="pl-c1">YES</span>);
+  <span class="pl-c1">NSString</span> *webPPath = [paths[<span class="pl-c1">0</span>] <span class="pl-c1">stringByAppendingPathComponent:</span><span class="pl-s"><span class="pl-pds">@"</span>image.webp<span class="pl-pds">"</span></span>];
+  <span class="pl-k">if</span> (![result <span class="pl-c1">writeToFile:</span>webPPath <span class="pl-c1">atomically:</span><span class="pl-c1">YES</span>]) {
+    <span class="pl-c1">NSLog</span>(<span class="pl-s"><span class="pl-pds">@"</span>Failed to save file<span class="pl-pds">"</span></span>);
+  }
+} <span class="pl-c1">failureBlock:</span>^(<span class="pl-c1">NSError</span> *error) {
+  <span class="pl-c1">NSLog</span>(<span class="pl-s"><span class="pl-pds">@"</span><span class="pl-c1">%@</span><span class="pl-pds">"</span></span>, error.<span class="pl-smi">localizedDescription</span>);
+}];</pre></div>
 
 <h5>
-<a name="webppreset-possible-values" class="anchor" href="#webppreset-possible-values"><span class="octicon octicon-link"></span></a><code>WebPPreset</code> possible values</h5>
+<a id="webppreset-possible-values" class="anchor" href="#webppreset-possible-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<code>WebPPreset</code> possible values</h5>
 
 <ul>
 <li>
@@ -112,51 +103,77 @@ There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</stro
 <li>
 <code>WEBP_PRESET_TEXT</code>    <em>(text-like)</em>
 </li>
-</ul><h4>
-<a name="converting-from-webp" class="anchor" href="#converting-from-webp"><span class="octicon octicon-link"></span></a>Converting From WebP</h4>
+</ul>
 
-<div class="highlight highlight-objc"><pre><span class="p">[</span><span class="n">UIImage</span> <span class="n">imageFromWebP</span><span class="o">:</span><span class="s">@"/path/to/file"</span> <span class="n">completionBlock</span><span class="o">:^</span><span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="n">result</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">UIImageView</span> <span class="o">*</span><span class="n">myImageView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithImage</span><span class="o">:</span><span class="n">result</span><span class="p">];</span>
-<span class="p">}</span><span class="n">failureBlock</span><span class="o">:^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">);</span>
-<span class="p">}];</span>
-</pre></div>
+<h5>
+<a id="config-block" class="anchor" href="#config-block" aria-hidden="true"><span class="octicon octicon-link"></span></a>Config block</h5>
+
+<p>If you need to fine tune the performance of the encoding algorithm you can specify overrides to the preset in a config block.</p>
+
+<div class="highlight highlight-objc"><pre><span class="pl-c">// quality value is [0, 100]</span>
+<span class="pl-c">// alpha value is [0, 1]</span>
+[UIImage <span class="pl-c1">imageToWebP:</span>[UIImage <span class="pl-c1">imageNamed:</span><span class="pl-s"><span class="pl-pds">@"</span>demo.jpg<span class="pl-pds">"</span></span>] <span class="pl-c1">quality:</span>quality <span class="pl-c1">alpha:</span>alpha 
+ <span class="pl-c1">preset:</span>WEBP_PRESET_DEFAULT 
+ <span class="pl-c1">configBlock:</span>^(WebPConfig *config) {
+    config-&gt;sns_strength = <span class="pl-c1">50</span>.<span class="pl-c1">0f</span>;
+    config-&gt;filter_strength = <span class="pl-c1">0</span>.<span class="pl-c1">0f</span>;
+    config-&gt;method = <span class="pl-c1">2</span>;
+    config-&gt;preprocessing = <span class="pl-c1">0</span>;
+    config-&gt;filter_sharpness = <span class="pl-c1">0</span>;
+    config-&gt;thread_level = <span class="pl-c1">1</span>;
+ }
+ <span class="pl-c1">completionBlock:</span>^(<span class="pl-c1">NSData</span> *result) {
+  <span class="pl-c1">NSArray</span> *paths = <span class="pl-c1">NSSearchPathForDirectoriesInDomains</span>(NSDocumentDirectory, NSUserDomainMask, <span class="pl-c1">YES</span>);
+  <span class="pl-c1">NSString</span> *webPPath = [paths[<span class="pl-c1">0</span>] <span class="pl-c1">stringByAppendingPathComponent:</span><span class="pl-s"><span class="pl-pds">@"</span>image.webp<span class="pl-pds">"</span></span>];
+  <span class="pl-k">if</span> (![result <span class="pl-c1">writeToFile:</span>webPPath <span class="pl-c1">atomically:</span><span class="pl-c1">YES</span>]) {
+    <span class="pl-c1">NSLog</span>(<span class="pl-s"><span class="pl-pds">@"</span>Failed to save file<span class="pl-pds">"</span></span>);
+  }
+} <span class="pl-c1">failureBlock:</span>^(<span class="pl-c1">NSError</span> *error) {
+  <span class="pl-c1">NSLog</span>(<span class="pl-s"><span class="pl-pds">@"</span><span class="pl-c1">%@</span><span class="pl-pds">"</span></span>, error.<span class="pl-smi">localizedDescription</span>);
+}];</pre></div>
+
+<p>All possible config values can be found in encode.h in the WebPConfig stuct.</p>
 
 <h4>
-<a name="setting-image-transparency" class="anchor" href="#setting-image-transparency"><span class="octicon octicon-link"></span></a>Setting Image Transparency</h4>
+<a id="converting-from-webp" class="anchor" href="#converting-from-webp" aria-hidden="true"><span class="octicon octicon-link"></span></a>Converting From WebP</h4>
 
-<div class="highlight highlight-objc"><pre><span class="c1">//alpha value is [0, 1]</span>
-<span class="n">UIImage</span> <span class="o">*</span><span class="n">transparencyImage</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="n">image</span><span class="p">.</span><span class="n">jpg</span><span class="p">]</span> <span class="n">imageByApplyingAlpha</span><span class="o">:</span><span class="mf">0.5</span><span class="p">];</span>
-</pre></div>
+<div class="highlight highlight-objc"><pre>[UIImage <span class="pl-c1">imageWithWebP:</span><span class="pl-s"><span class="pl-pds">@"</span>/path/to/file<span class="pl-pds">"</span></span> <span class="pl-c1">completionBlock:</span>^(UIImage *result) {
+  UIImageView *myImageView = [[UIImageView <span class="pl-c1">alloc</span>] <span class="pl-c1">initWithImage:</span>result];
+}<span class="pl-c1">failureBlock:</span>^(<span class="pl-c1">NSError</span> *error) {
+  <span class="pl-c1">NSLog</span>(<span class="pl-s"><span class="pl-pds">@"</span><span class="pl-c1">%@</span><span class="pl-pds">"</span></span>, error.<span class="pl-smi">localizedDescription</span>);
+}];</pre></div>
+
+<h4>
+<a id="setting-image-transparency" class="anchor" href="#setting-image-transparency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting Image Transparency</h4>
+
+<div class="highlight highlight-objc"><pre><span class="pl-c">//alpha value is [0, 1]</span>
+UIImage *transparencyImage = [[UIImage <span class="pl-c1">imageNamed:</span>image.jpg] <span class="pl-c1">imageByApplyingAlpha:</span><span class="pl-c1">0.5</span>];</pre></div>
 
 <h1>
-<a name="credit" class="anchor" href="#credit"><span class="octicon octicon-link"></span></a>Credit</h1>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits</h1>
 
 <ul>
 <li>Based off <a href="https://github.com/carsonmcdonald/WebP-iOS-example" title="WebP-iOS-example">WebP-iOS-example</a> by Carson McDonald</li>
 <li>
-<code>imageByApplyingAlpha:alpha</code> function contributed by <a href="https://github.com/shmidt">shmidt</a>
+<code>imageByApplyingAlpha:alpha</code> function contributed by <a href="https://github.com/shmidt">Dmitry Shmidt</a>
+</li>
+<li>
+<code>WebPConfig</code> block contributed by <a href="https://github.com/weibel">Kasper Weibel Nielsen-Refs</a> and <a href="https://github.com/escherba">Eugene Scherba</a>
+</li>
+<li>
+<a href="https://github.com/seanooi/iOS-WebP/issues/16"><code>free_image_data</code> crash fix</a> contributed by <a href="https://github.com/brandons">Brandon Schlenker</a> and <a href="https://github.com/zblackmore">zblackmore</a>
 </li>
 </ul>
-        </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/seanooi/iOS-WebP/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/seanooi/iOS-WebP/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/seanooi/iOS-WebP">iOS-WebP</a> is maintained by <a href="https://github.com/seanooi">seanooi</a>.</span>
 
-          <p class="repo-owner"><a href="https://github.com/seanooi/iOS-WebP"></a> is maintained by <a href="https://github.com/seanooi">seanooi</a>.</p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
+    </section>
 
   
   </body>
 </html>
+
