@@ -111,5 +111,6 @@ UIImage *transparencyImage = [[UIImage imageNamed:image.jpg] imageByApplyingAlph
 Credits
 ========
 * Based off [WebP-iOS-example](https://github.com/carsonmcdonald/WebP-iOS-example "WebP-iOS-example") by Carson McDonald
-* `imageByApplyingAlpha:alpha` function contributed by [shmidt](https://github.com/shmidt)
-* `WebPConfig` block contributed by [weibel](https://github.com/weibel) and [escherba](https://github.com/escherba)
+* `imageByApplyingAlpha:alpha` function contributed by [Dmitry Shmidt](https://github.com/shmidt)
+* `WebPConfig` block contributed by [Kasper Weibel Nielsen-Refs](https://github.com/weibel) and [Eugene Scherba](https://github.com/escherba)
+* `free_image_data` crash fix contributed by [Brandon Schlenker](https://github.com/brandons) and [zblackmore](https://github.com/zblackmore)
