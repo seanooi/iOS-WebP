@@ -96,6 +96,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     
     NSData *webPFinalData = [NSData dataWithBytes:writer.mem length:writer.size];
     
+    free(writer.mem);
     WebPPictureFree(&pic);
     CFRelease(webPImageDatRef);
     
