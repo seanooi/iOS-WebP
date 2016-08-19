@@ -25,8 +25,7 @@
 		14EFCB1D1865B999005742DB /* iOS_WebPTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB1C1865B999005742DB /* iOS_WebPTests.m */; };
 		14EFCB281865BA45005742DB /* Rosetta.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB261865BA45005742DB /* Rosetta.jpg */; };
 		14EFCB291865BA45005742DB /* Rosetta.webp in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB271865BA45005742DB /* Rosetta.webp */; };
-		14EFCB2B1865BA93005742DB /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCB2A1865BA93005742DB /* WebP.framework */; };
-		14EFCB2E1865BA9B005742DB /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB2D1865BA9B005742DB /* UIImage+WebP.m */; };
+		78AD3E7CBAD07DD413D3D056 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D186D707B8E4629289AC626 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,9 +62,9 @@
 		14EFCB1C1865B999005742DB /* iOS_WebPTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOS_WebPTests.m; sourceTree = "<group>"; };
 		14EFCB261865BA45005742DB /* Rosetta.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rosetta.jpg; sourceTree = "<group>"; };
 		14EFCB271865BA45005742DB /* Rosetta.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rosetta.webp; sourceTree = "<group>"; };
-		14EFCB2A1865BA93005742DB /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = "../iOS-WebP/WebP.framework"; sourceTree = "<group>"; };
-		14EFCB2C1865BA9B005742DB /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+WebP.h"; path = "../../iOS-WebP/UIImage+WebP.h"; sourceTree = "<group>"; };
-		14EFCB2D1865BA9B005742DB /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+WebP.m"; path = "../../iOS-WebP/UIImage+WebP.m"; sourceTree = "<group>"; };
+		3FBC71F187D3D30F54F892E9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		495D44A67BEBDEC0B9E0F974 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		9D186D707B8E4629289AC626 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,10 +72,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14EFCB2B1865BA93005742DB /* WebP.framework in Frameworks */,
 				14EFCAF41865B999005742DB /* CoreGraphics.framework in Frameworks */,
 				14EFCAF61865B999005742DB /* UIKit.framework in Frameworks */,
 				14EFCAF21865B999005742DB /* Foundation.framework in Frameworks */,
+				78AD3E7CBAD07DD413D3D056 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +99,7 @@
 				14EFCB161865B999005742DB /* iOS-WebPTests */,
 				14EFCAF01865B999005742DB /* Frameworks */,
 				14EFCAEF1865B999005742DB /* Products */,
+				3207B41051836A403F4377FB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,11 +115,11 @@
 		14EFCAF01865B999005742DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				14EFCB2A1865BA93005742DB /* WebP.framework */,
 				14EFCAF11865B999005742DB /* Foundation.framework */,
 				14EFCAF31865B999005742DB /* CoreGraphics.framework */,
 				14EFCAF51865B999005742DB /* UIKit.framework */,
 				14EFCB101865B999005742DB /* XCTest.framework */,
+				9D186D707B8E4629289AC626 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,8 +133,6 @@
 				14EFCB061865B999005742DB /* ViewController.h */,
 				14EFCB071865B999005742DB /* ViewController.m */,
 				14EFCB091865B999005742DB /* Images.xcassets */,
-				14EFCB2C1865BA9B005742DB /* UIImage+WebP.h */,
-				14EFCB2D1865BA9B005742DB /* UIImage+WebP.m */,
 				14EFCB261865BA45005742DB /* Rosetta.jpg */,
 				14EFCB271865BA45005742DB /* Rosetta.webp */,
 				14C4C24418A4675100D78657 /* mn.png */,
@@ -173,6 +171,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		3207B41051836A403F4377FB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				495D44A67BEBDEC0B9E0F974 /* Pods.debug.xcconfig */,
+				3FBC71F187D3D30F54F892E9 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -180,9 +187,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14EFCB201865B999005742DB /* Build configuration list for PBXNativeTarget "iOS-WebP" */;
 			buildPhases = (
+				C9164B4FB19E5E1CEE545CB3 /* Check Pods Manifest.lock */,
 				14EFCAEA1865B999005742DB /* Sources */,
 				14EFCAEB1865B999005742DB /* Frameworks */,
 				14EFCAEC1865B999005742DB /* Resources */,
+				41F550B91ED89226856DFDAA /* Embed Pods Frameworks */,
+				4051952B37288450BEFB4307 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -269,6 +279,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4051952B37288450BEFB4307 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		41F550B91ED89226856DFDAA /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C9164B4FB19E5E1CEE545CB3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		14EFCAEA1865B999005742DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -277,7 +335,6 @@
 				14EFCB081865B999005742DB /* ViewController.m in Sources */,
 				14EFCB021865B999005742DB /* AppDelegate.m in Sources */,
 				14EFCAFE1865B999005742DB /* main.m in Sources */,
-				14EFCB2E1865BA9B005742DB /* UIImage+WebP.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +456,7 @@
 		};
 		14EFCB211865B999005742DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 495D44A67BEBDEC0B9E0F974 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -416,6 +474,7 @@
 		};
 		14EFCB221865B999005742DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FBC71F187D3D30F54F892E9 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
