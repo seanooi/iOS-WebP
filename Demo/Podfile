@@ -1,5 +1,17 @@
 source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/Artsy/Specs.git'
 
-platform :ios, '8.0'
+platform :ios, '7.0'
+inhibit_all_warnings!
 
-pod 'iOS-WebP', path: '../'
+def sample_pod
+    pod 'iOS-WebP', path: '../'
+end
+
+target 'iOS-WebP' do
+    sample_pod
+end
+
+target 'iOS-WebPTests' do
+    sample_pod
+end

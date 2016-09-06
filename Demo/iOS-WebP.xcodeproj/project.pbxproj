@@ -7,25 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		146A7D221888FA960093F7D5 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 146A7D211888FA960093F7D5 /* default.png */; };
-		14C4C24518A4675100D78657 /* mn.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C4C24418A4675100D78657 /* mn.png */; };
-		14EFCAF21865B999005742DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF11865B999005742DB /* Foundation.framework */; };
-		14EFCAF41865B999005742DB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF31865B999005742DB /* CoreGraphics.framework */; };
-		14EFCAF61865B999005742DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF51865B999005742DB /* UIKit.framework */; };
 		14EFCAFC1865B999005742DB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCAFA1865B999005742DB /* InfoPlist.strings */; };
 		14EFCAFE1865B999005742DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCAFD1865B999005742DB /* main.m */; };
 		14EFCB021865B999005742DB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB011865B999005742DB /* AppDelegate.m */; };
 		14EFCB051865B999005742DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB031865B999005742DB /* Main.storyboard */; };
 		14EFCB081865B999005742DB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB071865B999005742DB /* ViewController.m */; };
 		14EFCB0A1865B999005742DB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB091865B999005742DB /* Images.xcassets */; };
-		14EFCB111865B999005742DB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCB101865B999005742DB /* XCTest.framework */; };
-		14EFCB121865B999005742DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF11865B999005742DB /* Foundation.framework */; };
-		14EFCB131865B999005742DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFCAF51865B999005742DB /* UIKit.framework */; };
 		14EFCB1B1865B999005742DB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB191865B999005742DB /* InfoPlist.strings */; };
 		14EFCB1D1865B999005742DB /* iOS_WebPTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EFCB1C1865B999005742DB /* iOS_WebPTests.m */; };
-		14EFCB281865BA45005742DB /* Rosetta.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB261865BA45005742DB /* Rosetta.jpg */; };
-		14EFCB291865BA45005742DB /* Rosetta.webp in Resources */ = {isa = PBXBuildFile; fileRef = 14EFCB271865BA45005742DB /* Rosetta.webp */; };
-		78AD3E7CBAD07DD413D3D056 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D186D707B8E4629289AC626 /* libPods.a */; };
+		43A797FBFBF0A8DACFBABB71 /* libPods-iOS-WebP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE03D86857CFB6ED5ADADF /* libPods-iOS-WebP.a */; };
+		583FA6086A191974D1719ACC /* libPods-iOS-WebPTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4825E5FF89EBA831D0B88A81 /* libPods-iOS-WebPTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,12 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		146A7D211888FA960093F7D5 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
-		14C4C24418A4675100D78657 /* mn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mn.png; sourceTree = "<group>"; };
 		14EFCAEE1865B999005742DB /* iOS-WebP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-WebP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		14EFCAF11865B999005742DB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		14EFCAF31865B999005742DB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		14EFCAF51865B999005742DB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		14EFCAF91865B999005742DB /* iOS-WebP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOS-WebP-Info.plist"; sourceTree = "<group>"; };
 		14EFCAFB1865B999005742DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		14EFCAFD1865B999005742DB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -56,15 +42,15 @@
 		14EFCB071865B999005742DB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		14EFCB091865B999005742DB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		14EFCB0F1865B999005742DB /* iOS-WebPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-WebPTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		14EFCB101865B999005742DB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		14EFCB181865B999005742DB /* iOS-WebPTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOS-WebPTests-Info.plist"; sourceTree = "<group>"; };
 		14EFCB1A1865B999005742DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		14EFCB1C1865B999005742DB /* iOS_WebPTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOS_WebPTests.m; sourceTree = "<group>"; };
-		14EFCB261865BA45005742DB /* Rosetta.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rosetta.jpg; sourceTree = "<group>"; };
-		14EFCB271865BA45005742DB /* Rosetta.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rosetta.webp; sourceTree = "<group>"; };
-		3FBC71F187D3D30F54F892E9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		495D44A67BEBDEC0B9E0F974 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		9D186D707B8E4629289AC626 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		260D56DD52D23BDD01AD2E3C /* Pods-iOS-WebPTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-WebPTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-WebPTests/Pods-iOS-WebPTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4825E5FF89EBA831D0B88A81 /* libPods-iOS-WebPTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iOS-WebPTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D5F7F1D1C85B236DC77946B /* Pods-iOS-WebPTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-WebPTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-WebPTests/Pods-iOS-WebPTests.release.xcconfig"; sourceTree = "<group>"; };
+		9371E6F1879873B83C9E6A57 /* Pods-iOS-WebP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-WebP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-WebP/Pods-iOS-WebP.debug.xcconfig"; sourceTree = "<group>"; };
+		94737DBC3B7018D89A4E4F28 /* Pods-iOS-WebP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-WebP.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-WebP/Pods-iOS-WebP.release.xcconfig"; sourceTree = "<group>"; };
+		CACE03D86857CFB6ED5ADADF /* libPods-iOS-WebP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iOS-WebP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,10 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14EFCAF41865B999005742DB /* CoreGraphics.framework in Frameworks */,
-				14EFCAF61865B999005742DB /* UIKit.framework in Frameworks */,
-				14EFCAF21865B999005742DB /* Foundation.framework in Frameworks */,
-				78AD3E7CBAD07DD413D3D056 /* libPods.a in Frameworks */,
+				43A797FBFBF0A8DACFBABB71 /* libPods-iOS-WebP.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,9 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14EFCB111865B999005742DB /* XCTest.framework in Frameworks */,
-				14EFCB131865B999005742DB /* UIKit.framework in Frameworks */,
-				14EFCB121865B999005742DB /* Foundation.framework in Frameworks */,
+				583FA6086A191974D1719ACC /* libPods-iOS-WebPTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,9 +78,9 @@
 			children = (
 				14EFCAF71865B999005742DB /* iOS-WebP */,
 				14EFCB161865B999005742DB /* iOS-WebPTests */,
-				14EFCAF01865B999005742DB /* Frameworks */,
 				14EFCAEF1865B999005742DB /* Products */,
-				3207B41051836A403F4377FB /* Pods */,
+				76BF3226ED590AE334BD883A /* Pods */,
+				3DA3A4EEAF02E5B9B616A6EB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,18 +93,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		14EFCAF01865B999005742DB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				14EFCAF11865B999005742DB /* Foundation.framework */,
-				14EFCAF31865B999005742DB /* CoreGraphics.framework */,
-				14EFCAF51865B999005742DB /* UIKit.framework */,
-				14EFCB101865B999005742DB /* XCTest.framework */,
-				9D186D707B8E4629289AC626 /* libPods.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		14EFCAF71865B999005742DB /* iOS-WebP */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,10 +102,6 @@
 				14EFCB061865B999005742DB /* ViewController.h */,
 				14EFCB071865B999005742DB /* ViewController.m */,
 				14EFCB091865B999005742DB /* Images.xcassets */,
-				14EFCB261865BA45005742DB /* Rosetta.jpg */,
-				14EFCB271865BA45005742DB /* Rosetta.webp */,
-				14C4C24418A4675100D78657 /* mn.png */,
-				146A7D211888FA960093F7D5 /* default.png */,
 				14EFCAF81865B999005742DB /* Supporting Files */,
 			);
 			path = "iOS-WebP";
@@ -171,11 +136,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		3207B41051836A403F4377FB /* Pods */ = {
+		3DA3A4EEAF02E5B9B616A6EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				495D44A67BEBDEC0B9E0F974 /* Pods.debug.xcconfig */,
-				3FBC71F187D3D30F54F892E9 /* Pods.release.xcconfig */,
+				CACE03D86857CFB6ED5ADADF /* libPods-iOS-WebP.a */,
+				4825E5FF89EBA831D0B88A81 /* libPods-iOS-WebPTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		76BF3226ED590AE334BD883A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9371E6F1879873B83C9E6A57 /* Pods-iOS-WebP.debug.xcconfig */,
+				94737DBC3B7018D89A4E4F28 /* Pods-iOS-WebP.release.xcconfig */,
+				260D56DD52D23BDD01AD2E3C /* Pods-iOS-WebPTests.debug.xcconfig */,
+				6D5F7F1D1C85B236DC77946B /* Pods-iOS-WebPTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -187,12 +163,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14EFCB201865B999005742DB /* Build configuration list for PBXNativeTarget "iOS-WebP" */;
 			buildPhases = (
-				C9164B4FB19E5E1CEE545CB3 /* Check Pods Manifest.lock */,
+				C9164B4FB19E5E1CEE545CB3 /* [CP] Check Pods Manifest.lock */,
 				14EFCAEA1865B999005742DB /* Sources */,
 				14EFCAEB1865B999005742DB /* Frameworks */,
 				14EFCAEC1865B999005742DB /* Resources */,
-				41F550B91ED89226856DFDAA /* Embed Pods Frameworks */,
-				4051952B37288450BEFB4307 /* Copy Pods Resources */,
+				41F550B91ED89226856DFDAA /* [CP] Embed Pods Frameworks */,
+				4051952B37288450BEFB4307 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,9 +183,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14EFCB231865B999005742DB /* Build configuration list for PBXNativeTarget "iOS-WebPTests" */;
 			buildPhases = (
+				5B4B2EA8429F1A6BDBA0C224 /* [CP] Check Pods Manifest.lock */,
 				14EFCB0B1865B999005742DB /* Sources */,
 				14EFCB0C1865B999005742DB /* Frameworks */,
 				14EFCB0D1865B999005742DB /* Resources */,
+				327518CDC38E8959E498BFB7 /* [CP] Embed Pods Frameworks */,
+				43574A2496066BA13A70ADEA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -227,7 +206,7 @@
 		14EFCAE61865B999005742DB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Sean Ooi";
 				TargetAttributes = {
 					14EFCB0E1865B999005742DB = {
@@ -259,13 +238,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14C4C24518A4675100D78657 /* mn.png in Resources */,
-				14EFCB281865BA45005742DB /* Rosetta.jpg in Resources */,
 				14EFCB0A1865B999005742DB /* Images.xcassets in Resources */,
 				14EFCAFC1865B999005742DB /* InfoPlist.strings in Resources */,
-				14EFCB291865BA45005742DB /* Rosetta.webp in Resources */,
 				14EFCB051865B999005742DB /* Main.storyboard in Resources */,
-				146A7D221888FA960093F7D5 /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,44 +255,89 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4051952B37288450BEFB4307 /* Copy Pods Resources */ = {
+		327518CDC38E8959E498BFB7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOS-WebPTests/Pods-iOS-WebPTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		41F550B91ED89226856DFDAA /* Embed Pods Frameworks */ = {
+		4051952B37288450BEFB4307 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOS-WebP/Pods-iOS-WebP-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C9164B4FB19E5E1CEE545CB3 /* Check Pods Manifest.lock */ = {
+		41F550B91ED89226856DFDAA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOS-WebP/Pods-iOS-WebP-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		43574A2496066BA13A70ADEA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOS-WebPTests/Pods-iOS-WebPTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5B4B2EA8429F1A6BDBA0C224 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C9164B4FB19E5E1CEE545CB3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,6 +422,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -456,17 +477,16 @@
 		};
 		14EFCB211865B999005742DB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 495D44A67BEBDEC0B9E0F974 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 9371E6F1879873B83C9E6A57 /* Pods-iOS-WebP.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../iOS-WebP",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
 				INFOPLIST_FILE = "iOS-WebP/iOS-WebP-Info.plist";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seanooi.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -474,17 +494,16 @@
 		};
 		14EFCB221865B999005742DB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FBC71F187D3D30F54F892E9 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 94737DBC3B7018D89A4E4F28 /* Pods-iOS-WebP.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../iOS-WebP",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
 				INFOPLIST_FILE = "iOS-WebP/iOS-WebP-Info.plist";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seanooi.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -492,6 +511,7 @@
 		};
 		14EFCB241865B999005742DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 260D56DD52D23BDD01AD2E3C /* Pods-iOS-WebPTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iOS-WebP.app/iOS-WebP";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -506,6 +526,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "iOS-WebPTests/iOS-WebPTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seanooi.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -514,6 +535,7 @@
 		};
 		14EFCB251865B999005742DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D5F7F1D1C85B236DC77946B /* Pods-iOS-WebPTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iOS-WebP.app/iOS-WebP";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -524,6 +546,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOS-WebP/iOS-WebP-Prefix.pch";
 				INFOPLIST_FILE = "iOS-WebPTests/iOS-WebPTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seanooi.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

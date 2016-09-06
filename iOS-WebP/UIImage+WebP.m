@@ -15,7 +15,8 @@ static void free_image_data(void *info, const void *data, size_t size)
         WebPFreeDecBuffer(&(((WebPDecoderConfig *) info)->output));
         free(info);
     }
-        free((void *) data);
+    
+    free((void *) data);
 }
 
 
@@ -206,7 +207,7 @@ static void free_image_data(void *info, const void *data, size_t size)
         NSError *error = nil;
         UIImage *webPImage = [self imageWithWebP:filePath error:&error];
         
-        // Return results to caller on main thread in completion block is `webPImage` != nil
+        // Return results to caller on main thread in completion block if `webPImage` != nil
         // Else return in failure block
         if(webPImage) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -337,7 +338,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             NSInteger byteIndex = ((width * 4) * y) + (x * 4);
-            pixelBuffer[byteIndex + 3] = pixels[byteIndex +3 ]*alpha;
+            pixelBuffer[byteIndex + 3] = pixels[byteIndex + 3]*alpha;
         }
     }
     

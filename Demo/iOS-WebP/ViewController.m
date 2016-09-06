@@ -7,10 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "UIImage+WebP.h"
+#import <iOS-WebP/UIImage+WebP.h>
 
-//static NSString *imageFileName = @"Rosetta.jpg";
-static NSString *imageFileName = @"mn.png";
 static CGFloat quality = 75.0f;
 static CGFloat alpha = 0.6f;
 static BOOL asyncConvert = YES;
@@ -31,15 +29,15 @@ static BOOL asyncConvert = YES;
 {
     [super viewDidLoad];
     
-    //NSString *normalImg = [[NSBundle mainBundle] pathForResource:@"Rosetta" ofType:@"jpg"];
-    NSString *normalImg = [[NSBundle mainBundle] pathForResource:@"mn" ofType:@"png"];
-    UIImage *demoImage = [UIImage imageNamed:imageFileName];
+    UIImage *demoImage = [UIImage imageNamed:@"MN"];
     [normalView setImage:[demoImage imageByApplyingAlpha:alpha]];
     
-    uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:normalImg error:nil] fileSize];
-    [normalLabel setText:[NSString stringWithFormat:@"%@ format file size: %.2f KB with alpha: %.2f",[[normalImg pathExtension] uppercaseString] , (double)fileSize/1024, alpha]];
+    NSData *demoImageData = UIImageJPEGRepresentation(demoImage, 1.0);
+    uint64_t fileSize = [demoImageData length];
     
-    [convertedView setImage:[UIImage imageNamed:@"default.png"]];
+    [normalLabel setText:[NSString stringWithFormat:@"%@ format file size: %.2f KB with alpha: %.2f", [self contentTypeForImageData:demoImageData] , (double)fileSize/1024, alpha]];
+    
+    [convertedView setImage:[UIImage imageNamed:@"Default"]];
     [convertedLabel setText:@"Waiting..."];
     
     if (!asyncConvert) {
@@ -81,6 +79,30 @@ static BOOL asyncConvert = YES;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Helper
+
+- (NSString *)contentTypeForImageData:(NSData *)data {
+    uint8_t c;
+    [data getBytes:&c length:1];
+    
+    switch (c) {
+        case 0xFF:
+            return @"JPEG";
+        case 0x89:
+            return @"PNG";
+        case 0x47:
+            return @"GIF";
+        case 0x49:
+            break;
+        case 0x42:
+            return @"BMP";
+        case 0x4D:
+            return @"TIFF";
+    }
+    
+    return nil;
 }
 
 @end
