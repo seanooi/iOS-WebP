@@ -13,14 +13,8 @@ Google's WebP image format offers better compression compared to PNG or JPEG, al
 pod 'iOS-WebP', '0.5'
 ```
 
-###The Manual Way
-Include the 3 files inside the `iOS-WebP` folder into your project:
-* `UIImage+WebP.h`
-* `UIImage+WebP.m`
-* `WebP.framework`
-
 #Usage
-Don't forget to `#import "UIImage+WebP.h"` or `#import <UIImage+WebP.h>` if you're using cocoapods.
+Don't forget to `#import <iOS-WebP/UIImage+WebP.h>`.
 There are 3 methods in `iOS-WebP`, converting images __to__ WebP format, converting images __from__ WebP format, and setting an image's transparency.
 ```objc
 + (void)imageToWebP:(UIImage *)image quality:(CGFloat)quality alpha:(CGFloat)alpha preset:(WebPPreset)preset
