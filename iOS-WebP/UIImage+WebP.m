@@ -14,10 +14,10 @@ static void free_image_data(void *info, const void *data, size_t size)
     if(info != NULL) {
         WebPFreeDecBuffer(&(((WebPDecoderConfig *) info)->output));
         free(info);
-    } else {
-        free((void *) data);
     }
+        free((void *) data);
 }
+
 
 @implementation UIImage (WebP)
 
@@ -279,7 +279,7 @@ static void free_image_data(void *info, const void *data, size_t size)
 {
     NSParameterAssert(alpha >= 0.0f && alpha <= 1.0f);
     
-    if (alpha < 1) {
+    if (alpha <= 1) {
         
        UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
        
