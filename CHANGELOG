@@ -1,3 +1,11 @@
+iOS-WebP 0.5 (September 5, 2016)
+	* [NEW] Using pod libwebp 0.5.0 (emilwojtaszek)
+	* [NEW] Using local podspec instead of separate framework for demo project (emilwojtaszek)
+
+	* [FIX] Memory leak and color changing (SagarSDagdu)
+
+----------------------------------------------------------------------------------------------------
+
 iOS-WebP 0.3 (February 6, 2014)
 	* [NEW] Block-based encoding and decoding (success/failure block)
 	* [NEW] Decoding and encoding run on background thread

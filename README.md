@@ -68,8 +68,8 @@ If you need to fine tune the performance of the encoding algorithm you can speci
 ```objc
 // quality value is [0, 100]
 // alpha value is [0, 1]
-[UIImage imageToWebP:[UIImage imageNamed:@"demo.jpg"] quality:quality alpha:alpha 
- preset:WEBP_PRESET_DEFAULT 
+[UIImage imageToWebP:[UIImage imageNamed:@"demo.jpg"] quality:quality alpha:alpha
+ preset:WEBP_PRESET_DEFAULT
  configBlock:^(WebPConfig *config) {
     config->sns_strength = 50.0f;
     config->filter_strength = 0.0f;
@@ -114,3 +114,5 @@ Credits
 * `imageByApplyingAlpha:alpha` function contributed by [Dmitry Shmidt](https://github.com/shmidt)
 * `WebPConfig` block contributed by [Kasper Weibel Nielsen-Refs](https://github.com/weibel) and [Eugene Scherba](https://github.com/escherba)
 * [`free_image_data` crash fix](https://github.com/seanooi/iOS-WebP/issues/16) contributed by [Brandon Schlenker](https://github.com/brandons) and [zblackmore](https://github.com/zblackmore)
+* Memory leak and color changing fix contributed by [Sagar Dagdu](https://github.com/SagarSDagdu)
+* `pod libwebp` dependency and demo project changes contributed by [Emil](https://github.com/emilwojtaszek)
