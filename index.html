@@ -5,7 +5,7 @@
     <title>iOS-WebP by seanooi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
@@ -20,7 +20,7 @@
 
     <section class="main-content">
       <h1>
-<a id="ios-webp" class="anchor" href="#ios-webp" aria-hidden="true"><span class="octicon octicon-link"></span></a>iOS-WebP</h1>
+<a id="ios-webp" class="anchor" href="#ios-webp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>iOS-WebP</h1>
 
 <p>Most apps nowadays enhance user experience with the use of images, and one of the issues I've noticed with that is the amount of time it takes to load an image. (<em>Not everyone has the luxury of a fast connection</em>)</p>
 
@@ -29,31 +29,20 @@
 <p><img src="http://i.imgur.com/tUCyYhD.png" alt="alt demo" title="Demo Screenshot"></p>
 
 <h1>
-<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h1>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h1>
 
 <h3>
-<a id="the-cocoapods-way" class="anchor" href="#the-cocoapods-way" aria-hidden="true"><span class="octicon octicon-link"></span></a>The CocoaPods Way</h3>
+<a id="the-cocoapods-way" class="anchor" href="#the-cocoapods-way" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The CocoaPods Way</h3>
 
-<div class="highlight highlight-ruby"><pre>pod <span class="pl-s"><span class="pl-pds">'</span>iOS-WebP<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>0.4<span class="pl-pds">'</span></span></pre></div>
-
-<h3>
-<a id="the-manual-way" class="anchor" href="#the-manual-way" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Manual Way</h3>
-
-<p>Include the 3 files inside the <code>iOS-WebP</code> folder into your project:</p>
-
-<ul>
-<li><code>UIImage+WebP.h</code></li>
-<li><code>UIImage+WebP.m</code></li>
-<li><code>WebP.framework</code></li>
-</ul>
+<div class="highlight highlight-source-ruby"><pre>pod <span class="pl-s"><span class="pl-pds">'</span>iOS-WebP<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>0.5<span class="pl-pds">'</span></span></pre></div>
 
 <h1>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
 
-<p>Don't forget to <code>#import "UIImage+WebP.h"</code> or <code>#import &lt;UIImage+WebP.h&gt;</code> if you're using cocoapods.
+<p>Don't forget to <code>#import &lt;iOS-WebP/UIImage+WebP.h&gt;</code>.
 There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</strong> WebP format, converting images <strong>from</strong> WebP format, and setting an image's transparency.</p>
 
-<div class="highlight highlight-objc"><pre>+ (<span class="pl-k">void</span>)imageToWebP:(UIImage *)image quality:(<span class="pl-c1">CGFloat</span>)quality alpha:(<span class="pl-c1">CGFloat</span>)alpha preset:(WebPPreset)preset
+<div class="highlight highlight-source-objc"><pre>+ (<span class="pl-k">void</span>)imageToWebP:(UIImage *)image quality:(<span class="pl-c1">CGFloat</span>)quality alpha:(<span class="pl-c1">CGFloat</span>)alpha preset:(WebPPreset)preset
     completionBlock:(<span class="pl-k">void</span> (^)(<span class="pl-c1">NSData</span> *result))completionBlock
        failureBlock:(<span class="pl-k">void</span> (^)(<span class="pl-c1">NSError</span> *error))failureBlock;
 
@@ -66,9 +55,9 @@ There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</stro
 <p>Encoding and decoding of images are done in the background thread and results returned in the completion block on the main thread so as not to lock the main thread, allowing the UI to be updated as needed.</p>
 
 <h4>
-<a id="converting-to-webp" class="anchor" href="#converting-to-webp" aria-hidden="true"><span class="octicon octicon-link"></span></a>Converting To WebP</h4>
+<a id="converting-to-webp" class="anchor" href="#converting-to-webp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Converting To WebP</h4>
 
-<div class="highlight highlight-objc"><pre><span class="pl-c">// quality value is [0, 100]</span>
+<div class="highlight highlight-source-objc"><pre><span class="pl-c">// quality value is [0, 100]</span>
 <span class="pl-c">// alpha value is [0, 1]</span>
 [UIImage <span class="pl-c1">imageToWebP:</span>[UIImage <span class="pl-c1">imageNamed:</span><span class="pl-s"><span class="pl-pds">@"</span>demo.jpg<span class="pl-pds">"</span></span>] <span class="pl-c1">quality:</span>quality <span class="pl-c1">alpha:</span>alpha <span class="pl-c1">preset:</span>WEBP_PRESET_DEFAULT <span class="pl-c1">completionBlock:</span>^(<span class="pl-c1">NSData</span> *result) {
   <span class="pl-c1">NSArray</span> *paths = <span class="pl-c1">NSSearchPathForDirectoriesInDomains</span>(NSDocumentDirectory, NSUserDomainMask, <span class="pl-c1">YES</span>);
@@ -81,8 +70,7 @@ There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</stro
 }];</pre></div>
 
 <h5>
-<a id="webppreset-possible-values" class="anchor" href="#webppreset-possible-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>
-<code>WebPPreset</code> possible values</h5>
+<a id="webppreset-possible-values" class="anchor" href="#webppreset-possible-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>WebPPreset</code> possible values</h5>
 
 <ul>
 <li>
@@ -106,14 +94,14 @@ There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</stro
 </ul>
 
 <h5>
-<a id="config-block" class="anchor" href="#config-block" aria-hidden="true"><span class="octicon octicon-link"></span></a>Config block</h5>
+<a id="config-block" class="anchor" href="#config-block" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Config block</h5>
 
 <p>If you need to fine tune the performance of the encoding algorithm you can specify overrides to the preset in a config block.</p>
 
-<div class="highlight highlight-objc"><pre><span class="pl-c">// quality value is [0, 100]</span>
+<div class="highlight highlight-source-objc"><pre><span class="pl-c">// quality value is [0, 100]</span>
 <span class="pl-c">// alpha value is [0, 1]</span>
-[UIImage <span class="pl-c1">imageToWebP:</span>[UIImage <span class="pl-c1">imageNamed:</span><span class="pl-s"><span class="pl-pds">@"</span>demo.jpg<span class="pl-pds">"</span></span>] <span class="pl-c1">quality:</span>quality <span class="pl-c1">alpha:</span>alpha 
- <span class="pl-c1">preset:</span>WEBP_PRESET_DEFAULT 
+[UIImage <span class="pl-c1">imageToWebP:</span>[UIImage <span class="pl-c1">imageNamed:</span><span class="pl-s"><span class="pl-pds">@"</span>demo.jpg<span class="pl-pds">"</span></span>] <span class="pl-c1">quality:</span>quality <span class="pl-c1">alpha:</span>alpha
+ <span class="pl-c1">preset:</span>WEBP_PRESET_DEFAULT
  <span class="pl-c1">configBlock:</span>^(WebPConfig *config) {
     config-&gt;sns_strength = <span class="pl-c1">50</span>.<span class="pl-c1">0f</span>;
     config-&gt;filter_strength = <span class="pl-c1">0</span>.<span class="pl-c1">0f</span>;
@@ -135,22 +123,22 @@ There are 3 methods in <code>iOS-WebP</code>, converting images <strong>to</stro
 <p>All possible config values can be found in encode.h in the WebPConfig stuct.</p>
 
 <h4>
-<a id="converting-from-webp" class="anchor" href="#converting-from-webp" aria-hidden="true"><span class="octicon octicon-link"></span></a>Converting From WebP</h4>
+<a id="converting-from-webp" class="anchor" href="#converting-from-webp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Converting From WebP</h4>
 
-<div class="highlight highlight-objc"><pre>[UIImage <span class="pl-c1">imageWithWebP:</span><span class="pl-s"><span class="pl-pds">@"</span>/path/to/file<span class="pl-pds">"</span></span> <span class="pl-c1">completionBlock:</span>^(UIImage *result) {
+<div class="highlight highlight-source-objc"><pre>[UIImage <span class="pl-c1">imageWithWebP:</span><span class="pl-s"><span class="pl-pds">@"</span>/path/to/file<span class="pl-pds">"</span></span> <span class="pl-c1">completionBlock:</span>^(UIImage *result) {
   UIImageView *myImageView = [[UIImageView <span class="pl-c1">alloc</span>] <span class="pl-c1">initWithImage:</span>result];
 }<span class="pl-c1">failureBlock:</span>^(<span class="pl-c1">NSError</span> *error) {
   <span class="pl-c1">NSLog</span>(<span class="pl-s"><span class="pl-pds">@"</span><span class="pl-c1">%@</span><span class="pl-pds">"</span></span>, error.<span class="pl-smi">localizedDescription</span>);
 }];</pre></div>
 
 <h4>
-<a id="setting-image-transparency" class="anchor" href="#setting-image-transparency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting Image Transparency</h4>
+<a id="setting-image-transparency" class="anchor" href="#setting-image-transparency" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setting Image Transparency</h4>
 
-<div class="highlight highlight-objc"><pre><span class="pl-c">//alpha value is [0, 1]</span>
+<div class="highlight highlight-source-objc"><pre><span class="pl-c">//alpha value is [0, 1]</span>
 UIImage *transparencyImage = [[UIImage <span class="pl-c1">imageNamed:</span>image.jpg] <span class="pl-c1">imageByApplyingAlpha:</span><span class="pl-c1">0.5</span>];</pre></div>
 
 <h1>
-<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits</h1>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Credits</h1>
 
 <ul>
 <li>Based off <a href="https://github.com/carsonmcdonald/WebP-iOS-example" title="WebP-iOS-example">WebP-iOS-example</a> by Carson McDonald</li>
@@ -162,6 +150,11 @@ UIImage *transparencyImage = [[UIImage <span class="pl-c1">imageNamed:</span>ima
 </li>
 <li>
 <a href="https://github.com/seanooi/iOS-WebP/issues/16"><code>free_image_data</code> crash fix</a> contributed by <a href="https://github.com/brandons">Brandon Schlenker</a> and <a href="https://github.com/zblackmore">zblackmore</a>
+</li>
+<li>Memory leak and color changing fix contributed by <a href="https://github.com/SagarSDagdu">Sagar Dagdu</a>
+</li>
+<li>
+<code>pod libwebp</code> dependency and demo project changes contributed by <a href="https://github.com/emilwojtaszek">Emil</a>
 </li>
 </ul>
 
@@ -176,4 +169,3 @@ UIImage *transparencyImage = [[UIImage <span class="pl-c1">imageNamed:</span>ima
   
   </body>
 </html>
-
