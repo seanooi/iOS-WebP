@@ -104,7 +104,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     return webPFinalData;
 }
 
-+ (UIImage *)imageWithWebP:(NSString *)filePath error:(NSError **)error
++ (UIImage *)imageWithWebP:(NSString *)filePath scale:(CGFloat)scale error:(NSError **)error
 {
     // If passed `filepath` is invalid, return nil to caller and log error in console
     NSError *dataError = nil;
@@ -113,10 +113,10 @@ static void free_image_data(void *info, const void *data, size_t size)
         *error = dataError;
         return nil;
     }
-    return [UIImage imageWithWebPData:imgData error:error];
+    return [UIImage imageWithWebPData:imgData scale:scale error:error];
 }
 
-+ (UIImage *)imageWithWebPData:(NSData *)imgData error:(NSError **)error
++ (UIImage *)imageWithWebPData:(NSData *)imgData scale:(CGFloat)scale error:(NSError **)error
 {
     // `WebPGetInfo` weill return image width and height
     int width = 0, height = 0;
@@ -163,7 +163,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
     
     CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4 * width, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);
-    UIImage *result = [UIImage imageWithCGImage:imageRef];
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
     
     // Free resources to avoid memory leaks
     CGImageRelease(imageRef);
@@ -176,14 +176,19 @@ static void free_image_data(void *info, const void *data, size_t size)
 #pragma mark - Synchronous methods
 + (UIImage *)imageWithWebP:(NSString *)filePath
 {
+    return [self imageWithWebP:filePath scale:1.0f];
+}
+
++ (UIImage *)imageWithWebP:(NSString *)filePath scale:(CGFloat)scale
+{
     NSParameterAssert(filePath != nil);
-    return [self imageWithWebP:filePath error:nil];
+    return [self imageWithWebP:filePath scale:scale error:nil];
 }
 
 + (UIImage *)imageWithWebPData:(NSData *)imgData
 {
     NSParameterAssert(imgData != nil);
-    return [self imageWithWebPData:imgData error:nil];
+    return [self imageWithWebPData:imgData scale:1.0f error:nil];
 }
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
@@ -205,7 +210,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_async(fromWebPQueue, ^{
         
         NSError *error = nil;
-        UIImage *webPImage = [self imageWithWebP:filePath error:&error];
+        UIImage *webPImage = [self imageWithWebP:filePath scale:1.0f error:&error];
         
         // Return results to caller on main thread in completion block if `webPImage` != nil
         // Else return in failure block
