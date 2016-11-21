@@ -176,7 +176,25 @@ static void free_image_data(void *info, const void *data, size_t size)
 #pragma mark - Synchronous methods
 + (UIImage *)imageWithWebP:(NSString *)filePath
 {
-    return [self imageWithWebP:filePath scale:1.0f];
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    NSInteger scaleInteger = (NSInteger) scale;
+    NSString *extension = [filePath pathExtension];
+    
+    while (scaleInteger > 1) {
+        NSString *file = [[[filePath stringByDeletingPathExtension] stringByAppendingFormat:@"@%lix", (long) scaleInteger] stringByAppendingPathExtension:extension];
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:file]) {
+            filePath = file;
+            break;
+        }
+        
+        scaleInteger -= 1;
+    }
+    
+    if(scaleInteger == 1 && ![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+        return  nil;
+
+    return [self imageWithWebP:filePath scale:scale];
 }
 
 + (UIImage *)imageWithWebP:(NSString *)filePath scale:(CGFloat)scale
