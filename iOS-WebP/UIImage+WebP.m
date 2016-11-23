@@ -173,27 +173,36 @@ static void free_image_data(void *info, const void *data, size_t size)
     return result;
 }
 
-#pragma mark - Synchronous methods
-+ (UIImage *)imageWithWebP:(NSString *)filePath
-{
-    CGFloat scale = [[UIScreen mainScreen] scale];
-    NSInteger scaleInteger = (NSInteger) scale;
++ (NSString *)filePathScaled:(NSString *)filePath scale:(CGFloat *)scale {
     NSString *extension = [filePath pathExtension];
+    filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:filePath];
     
-    while (scaleInteger > 1) {
-        NSString *file = [[[filePath stringByDeletingPathExtension] stringByAppendingFormat:@"@%lix", (long) scaleInteger] stringByAppendingPathExtension:extension];
-
+    while (*scale > 1) {
+        NSString *file = [[[filePath stringByDeletingPathExtension] stringByAppendingFormat:@"@%l1.0dx", (long) *scale] stringByAppendingPathExtension:extension];
+        
         if ([[NSFileManager defaultManager] fileExistsAtPath:file]) {
             filePath = file;
             break;
         }
         
-        scaleInteger -= 1;
+        *scale -= 1;
     }
     
-    if(scaleInteger == 1 && ![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    if(*scale == 1 && ![[NSFileManager defaultManager] fileExistsAtPath:filePath])
         return  nil;
+    
+    return filePath;
+}
 
+#pragma mark - Synchronous methods
++ (UIImage *)imageWithWebP:(NSString *)filePath
+{
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    filePath = [self filePathScaled:filePath scale:&scale];
+    
+    if(!filePath)
+        return nil;
+    
     return [self imageWithWebP:filePath scale:scale];
 }
 
@@ -228,7 +237,9 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_async(fromWebPQueue, ^{
         
         NSError *error = nil;
-        UIImage *webPImage = [self imageWithWebP:filePath scale:1.0f error:&error];
+        CGFloat scale = [[UIScreen mainScreen] scale];
+
+        UIImage *webPImage = [self imageWithWebP:[self filePathScaled:filePath scale:&scale] scale:scale error:&error];
         
         // Return results to caller on main thread in completion block if `webPImage` != nil
         // Else return in failure block
