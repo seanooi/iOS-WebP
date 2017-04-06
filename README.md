@@ -1,4 +1,4 @@
-#iOS-WebP
+# iOS-WebP
 
 Most apps nowadays enhance user experience with the use of images, and one of the issues I've noticed with that is the amount of time it takes to load an image. (_Not everyone has the luxury of a fast connection_)
 
@@ -6,14 +6,15 @@ Google's WebP image format offers better compression compared to PNG or JPEG, al
 
 ![alt demo](http://i.imgur.com/tUCyYhD.png "Demo Screenshot")
 
-#Getting Started
+# Getting Started
 
-###The CocoaPods Way
+### The CocoaPods Way
 ```ruby
 pod 'iOS-WebP', '0.5'
 ```
 
-#Usage
+# Usage
+
 Don't forget to `#import <iOS-WebP/UIImage+WebP.h>`.
 There are 3 methods in `iOS-WebP`, converting images __to__ WebP format, converting images __from__ WebP format, and setting an image's transparency.
 ```objc
@@ -46,7 +47,7 @@ Encoding and decoding of images are done in the background thread and results re
 }];
 ```
 
-#####`WebPPreset` possible values
+##### `WebPPreset` possible values
 
 * `WEBP_PRESET_DEFAULT` _(default preset)_
 * `WEBP_PRESET_PICTURE` _(digital picture, like portrait, inner shot)_
