@@ -178,7 +178,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:filePath];
     
     while (*scale > 1) {
-        NSString *file = [[[filePath stringByDeletingPathExtension] stringByAppendingFormat:@"@%l1.0dx", (long) *scale] stringByAppendingPathExtension:extension];
+        NSString *file = [[[filePath stringByDeletingPathExtension] stringByAppendingFormat:@"@%1.0ldx", (long) *scale] stringByAppendingPathExtension:extension];
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:file]) {
             filePath = file;
