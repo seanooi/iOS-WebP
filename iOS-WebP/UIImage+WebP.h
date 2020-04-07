@@ -16,6 +16,8 @@
 
 + (UIImage*)imageWithWebP:(NSString*)filePath;
 
++ (UIImage*)imageWithWebP:(NSString*)filePath scale:(CGFloat)scale;
+
 + (NSData*)imageToWebP:(UIImage*)image quality:(CGFloat)quality;
 
 + (void)imageToWebP:(UIImage*)image

@@ -104,7 +104,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     return webPFinalData;
 }
 
-+ (UIImage *)imageWithWebP:(NSString *)filePath error:(NSError **)error
++ (UIImage *)imageWithWebP:(NSString *)filePath scale:(CGFloat)scale error:(NSError **)error
 {
     // If passed `filepath` is invalid, return nil to caller and log error in console
     NSError *dataError = nil;
@@ -113,10 +113,10 @@ static void free_image_data(void *info, const void *data, size_t size)
         *error = dataError;
         return nil;
     }
-    return [UIImage imageWithWebPData:imgData error:error];
+    return [UIImage imageWithWebPData:imgData scale:scale error:error];
 }
 
-+ (UIImage *)imageWithWebPData:(NSData *)imgData error:(NSError **)error
++ (UIImage *)imageWithWebPData:(NSData *)imgData scale:(CGFloat)scale error:(NSError **)error
 {
     // `WebPGetInfo` weill return image width and height
     int width = 0, height = 0;
@@ -163,7 +163,7 @@ static void free_image_data(void *info, const void *data, size_t size)
     CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
     
     CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4 * width, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);
-    UIImage *result = [UIImage imageWithCGImage:imageRef];
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
     
     // Free resources to avoid memory leaks
     CGImageRelease(imageRef);
@@ -173,17 +173,49 @@ static void free_image_data(void *info, const void *data, size_t size)
     return result;
 }
 
++ (NSString *)filePathScaled:(NSString *)filePath scale:(CGFloat *)scale {
+    NSString *extension = [filePath pathExtension];
+    filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:filePath];
+    
+    while (*scale > 1) {
+        NSString *file = [[[filePath stringByDeletingPathExtension] stringByAppendingFormat:@"@%1.0ldx", (long) *scale] stringByAppendingPathExtension:extension];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:file]) {
+            filePath = file;
+            break;
+        }
+        
+        *scale -= 1;
+    }
+    
+    if(*scale == 1 && ![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+        return  nil;
+    
+    return filePath;
+}
+
 #pragma mark - Synchronous methods
 + (UIImage *)imageWithWebP:(NSString *)filePath
 {
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    filePath = [self filePathScaled:filePath scale:&scale];
+    
+    if(!filePath)
+        return nil;
+    
+    return [self imageWithWebP:filePath scale:scale];
+}
+
++ (UIImage *)imageWithWebP:(NSString *)filePath scale:(CGFloat)scale
+{
     NSParameterAssert(filePath != nil);
-    return [self imageWithWebP:filePath error:nil];
+    return [self imageWithWebP:filePath scale:scale error:nil];
 }
 
 + (UIImage *)imageWithWebPData:(NSData *)imgData
 {
     NSParameterAssert(imgData != nil);
-    return [self imageWithWebPData:imgData error:nil];
+    return [self imageWithWebPData:imgData scale:1.0f error:nil];
 }
 
 + (NSData *)imageToWebP:(UIImage *)image quality:(CGFloat)quality
@@ -205,7 +237,9 @@ static void free_image_data(void *info, const void *data, size_t size)
     dispatch_async(fromWebPQueue, ^{
         
         NSError *error = nil;
-        UIImage *webPImage = [self imageWithWebP:filePath error:&error];
+        CGFloat scale = [[UIScreen mainScreen] scale];
+
+        UIImage *webPImage = [self imageWithWebP:[self filePathScaled:filePath scale:&scale] scale:scale error:&error];
         
         // Return results to caller on main thread in completion block if `webPImage` != nil
         // Else return in failure block
