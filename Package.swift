@@ -21,6 +21,7 @@ import PackageDescription
     targets: [
         .target(
             name: "iOSWebP",
+            dependencies: [.product(name: "libwebp")],
             path: "iOS-WebP",
             sources: [""],
             publicHeadersPath: "",
