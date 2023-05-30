@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#if __has_include(<libwebp/webp/decode.h>)
-#import <libwebp/webp/decode.h>
-#import <libwebp/webp/encode.h>
+#if __has_include(<decode.h>)
+#import <decode.h>
+#import <encode.h>
 #else
 @import libwebp;
 #endif
