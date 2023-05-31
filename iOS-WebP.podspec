@@ -1,6 +1,7 @@
 Pod::Spec.new do |s|
   s.name         		= 'iOS-WebP'
-  s.platform     		= 'ios'
+  s.ios.deployment_target  	= '11.0'
+  s.tvos.deployment_target  	= '11.0'
   s.license      		= 'MIT'
   s.version      		= '0.5'
   s.homepage     		= 'https://github.com/seanooi/iOS-WebP'
@@ -9,5 +10,5 @@ Pod::Spec.new do |s|
   s.source       		= { :git => 'https://github.com/seanooi/iOS-WebP.git', :tag => '0.5' }
   s.source_files		= 'iOS-WebP/*.{h,m}'
   s.requires_arc		= true
-  s.dependency      'libwebp', '~> 0.5.0'
+  s.dependency      'libwebp/webp', '~> 1.2.4'
 end
