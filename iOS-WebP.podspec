@@ -1,6 +1,7 @@
 Pod::Spec.new do |s|
   s.name         		= 'iOS-WebP'
-  s.platform     		= 'ios'
+  s.ios.deployment_target  	= '11.0'
+  s.tvos.deployment_target  	= '11.0'
   s.license      		= 'MIT'
   s.version      		= '0.5'
   s.homepage     		= 'https://github.com/seanooi/iOS-WebP'
