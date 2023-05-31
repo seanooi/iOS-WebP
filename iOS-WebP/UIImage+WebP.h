@@ -7,12 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#if __has_include(<decode.h>)
-#import <decode.h>
-#import <encode.h>
-#else
 @import libwebp;
-#endif
 
 @interface UIImage (WebP)
 
